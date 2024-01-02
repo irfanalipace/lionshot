@@ -1,0 +1,39 @@
+/* .export-modal .card-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 16px;
+} */
+
+/* .export-modal
+  label.MuiFormControlLabel-root.MuiFormControlLabel-labelPlacementEnd.css-j204z7-MuiFormControlLabel-root {
+  display: block;
+} */
+/* .export-modal .modal-container {
+  margin: 0 auto;
+  width: 45%;
+  margin-top: 15vh;
+} */
+/* .export-modal .close-icon {
+  float: right;
+  cursor: pointer;
+} */
+
+/* .export-modal
+  .MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation1.MuiCard-root.modal-card.css-bhp9pd-MuiPaper-root-MuiCard-root {
+  background-color: #f3f3f3;
+} */
+
+/* .export-modal.slide-in {
+  animation: slideIn 0.4s ease-in-out;
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+} */
