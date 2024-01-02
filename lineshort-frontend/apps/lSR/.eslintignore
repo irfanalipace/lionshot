@@ -1,0 +1,12 @@
+/**/node_modules/*
+node_modules/
+node_modules/*
+./node_modules/**
+**/node_modules/**
+dist/
+../../node_modules
+apps/IMS/node_modules
+apps/IMS/dist
+packages/invoicing/node_modules
+packages/invoicing/dist
+packages\invoicing\node_modules
