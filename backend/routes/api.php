@@ -25,14 +25,10 @@ Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->midd
 Route::post('/reset-password', [AuthController::class, 'resetPassword'])->middleware('guest')->name('password.reset');
 
 
-Route::get('/email/verify', [AuthController::class, 'VerificationNotice'])->middleware(['auth', 'verified'])->name('verification.notice');
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-    $request->fulfill();
+Route::get('/email/verify', [AuthController::class, 'verificationNotice'])->middleware(['auth', 'verified'])->name('verification.notice');
+Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verificationVerify'])->name('verification.verify');
 
-    return redirect('/home');
-})->middleware(['auth', 'signed'])->name('verification.verify');
-
-Route::post('/email/verification-notification', [AuthController::class, 'VerificationLink'])->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+Route::post('/email/verification-notification', [AuthController::class, 'verificationLink'])->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 Route::middleware('auth:api')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);

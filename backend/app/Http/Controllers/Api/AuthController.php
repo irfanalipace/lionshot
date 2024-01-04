@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\ResetPasswordRequest;
+use App\Jobs\SendVerificationRequest;
 use Auth;
 use App\Models\User;
 use App\Http\Controllers\Api\BaseController;
@@ -10,6 +11,7 @@ use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\LoginRequest;
@@ -43,9 +45,7 @@ class AuthController extends BaseController
                 $tokenResult = $user->createToken('Personal Access Token');
                 $token = $tokenResult->accessToken;
 
-                // Invoke register user event, it will email the
-                // newly registered user for verification
-                event(new Registered($user));
+                SendVerificationRequest::dispatch($user);
 
                 return $this->sendResponse(['accessToken'=> $token], 'Successfully created user!');
             }
@@ -149,14 +149,16 @@ class AuthController extends BaseController
             if ($validator->fails()) {
                 throw new \Exception($validator->errors()->first());
             } else {
-                Password::sendResetLink(
+                $status = Password::sendResetLink(
                     $request->only('email')
                 );
 
-                return $this->sendResponse(null, 'Reset password link sent successfully');
-
+                if ($status === Password::RESET_LINK_SENT) {
+                    return $this->sendResponse(null, 'Reset password link sent successfully');
+                } else if (Password::INVALID_USER) {
+                    return $this->sendError('User not found', [], 400);
+                }
             }
-
 
             return $this->sendResponse(null, 'Something went wrong, please try again');
         } catch (\Throwable $th) {
@@ -194,36 +196,44 @@ class AuthController extends BaseController
         return $this->sendError('Password reset unsuccessful, please try again');
     }
 
-    function VerificationVerify (EmailVerificationRequest $request): bool {
+    public function verificationVerify($user_id, Request $request): JsonResponse
+    {
         try {
-            $request->fulfill();
+            $user = User::findOrFail($user_id);
 
-            return true;
+            if (!$request->hasValidSignature()) {
+                return $this->sendError(["msg" => ["Invalid/Expired url provided."]], 401);
+            }
+
+            if (!$user->hasVerifiedEmail()) {
+                $user->markEmailAsVerified();
+            }
+
+            return $this->sendResponse($user->hasVerifiedEmail(), 'User has been verified successfully');
         } catch (\Throwable $th) {
-            // Not throwing error here for now
-            return false;
+         return $this->sendError($th->getMessage(), null, 'Please check stacktrace');
         }
     }
 
-    function VerificationNotice () {
+    function verificationNotice () {
         return view('auth.verify-email');
     }
 
     /**
      * Sends a verification link to the user;
      *
-     * @param
-     *
-     * @return
+     * @param Request $request
+     * @return JsonResponse bool
      *  bool
      */
-    function VerificationLink (Request $request) {
+    function verificationLink (Request $request): JsonResponse
+    {
        try {
         $request->user()->sendEmailVerificationNotification();
 
-        return  true;
+        return $this->sendResponse(null, 'Verification message has been sent to the users email');
        } catch (\Throwable $th) {
-        return false;
+        return $this->sendError($th->getMessage(), null, 'Something went wrong.');
        }
     }
 }
