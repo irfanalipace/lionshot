@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\ResetPasswordRequest;
-use App\Jobs\SendVerificationRequest;
 use Auth;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -15,6 +14,9 @@ use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
+use App\Http\Requests\ResetPasswordRequest;
+use App\Jobs\ForgotPassword;
+use App\Jobs\SendVerificationRequest;
 
 class AuthController extends BaseController
 {
@@ -147,21 +149,59 @@ class AuthController extends BaseController
             if ($validator->fails()) {
                 throw new \Exception($validator->errors()->first());
             } else {
-                $status = Password::sendResetLink(
-                    $request->only('email')
-                );
+                //TODO
+                /**
+                 * 1. Generate random OTP;
+                 * 2. Send the user, an email containing OTP
+                 * 3. User will add the OTP on the F.E
+                 * 4. Verify that OTP with on submit through an API call.
+                 * 5. Success response
+                 */
 
-                if ($status === Password::RESET_LINK_SENT) {
-                    return $this->sendResponse(null, 'Reset password link sent successfully');
-                } else if (Password::INVALID_USER) {
-                    return $this->sendError('User not found', [], 400);
-                }
+                $otp = rand(100000,999999);
+                $user = User::where('email', $request->email)->first();
+
+                $user->otp = $otp;
+                $user->otp_created_at = Carbon::now();
+                $user->save();
+
+                //Dispatching an event for the mail
+                ForgotPassword::dispatch($user, $otp);
+
+                return $this->sendResponse(null, 'A five digit OTP has been sent to the users email');
             }
 
-            return $this->sendResponse(null, 'Something went wrong, please try again');
         } catch (\Throwable $th) {
             return $this->sendError($th->getMessage());
         }
+    }
+
+    /**
+     * Validated the OTP and calls the callback
+     *
+     * @param Request $request
+     * @param \Closure $callback
+     * @return bool
+     */
+    function validateOTP(Request $request, \Closure $callback): bool
+    {
+        $user = User::where('email', $request->email)->first();
+        if (!$user->otp || !$user->otp_created_at) {
+            return false;
+        }
+
+        if ( $user->otp === $request->otp) {
+            // Check if the otp has expired;
+            $past = Carbon::parse($user->otp_created_at);
+
+            if (Carbon::now()->diffInMinutes($past) >= 5) {
+                return false;
+            }
+        }
+
+        $callback($user, $request->password);
+
+        return true;
     }
 
     /**
@@ -182,12 +222,9 @@ class AuthController extends BaseController
             event(new PasswordReset($user));
         };
 
-        $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            $callback
-        );
+        $status = $this->validateOTP($request, $callback);
 
-        if ($status === Password::PASSWORD_RESET) {
+        if ($status) {
             return $this->sendResponse(null, 'Password has been updated successfully');
         }
 
