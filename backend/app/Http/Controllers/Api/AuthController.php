@@ -6,17 +6,13 @@ use App\Http\Requests\ResetPasswordRequest;
 use App\Jobs\SendVerificationRequest;
 use Auth;
 use App\Models\User;
-use App\Http\Controllers\Api\BaseController;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\LoginRequest;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 
@@ -25,7 +21,8 @@ class AuthController extends BaseController
     /**
     * Create user
     *
-    * @param  [string] name
+    * @param  [string] full_name
+    * @param  [string last_name
     * @param  [string] email
     * @param  [string] password
     * @param  [string] password_confirmation
@@ -35,7 +32,8 @@ class AuthController extends BaseController
     {
         try {
             $user = new User([
-                'name'  => $request->name,
+                'first_name'  => $request->first_name,
+                'last_name' => $request->last_name,
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
             ]);
