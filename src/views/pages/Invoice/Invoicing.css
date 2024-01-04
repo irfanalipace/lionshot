@@ -1,0 +1,22 @@
+.top-container {
+	background-color: white !important;
+	/* width: 100%; */
+	border-radius: 8px !important;
+	margin: 0.5em !important;
+	padding: 20px 40px !important;
+	display: flex !important;
+	justify-content: end !important;
+}
+
+.top-container p {
+	/* font-size: 27px; */
+}
+
+.btn-container {
+	display: flex;
+	justify-content: flex-end;
+}
+
+.btn-container Button {
+	margin-left: 0.75rem;
+}
