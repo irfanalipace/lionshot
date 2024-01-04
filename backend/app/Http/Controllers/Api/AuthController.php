@@ -149,15 +149,12 @@ class AuthController extends BaseController
             if ($validator->fails()) {
                 throw new \Exception($validator->errors()->first());
             } else {
-                $status = Password::sendResetLink(
+                Password::sendResetLink(
                     $request->only('email')
                 );
 
-                if ($status === Password::RESET_LINK_SENT) {
-                    return $this->sendResponse(null, 'Reset password link sent successfully');
-                } else if (Password::INVALID_USER) {
-                    return $this->sendError('User not found', [], 400);
-                }
+                return $this->sendResponse(null, 'Reset password link sent successfully');
+
             }
 
 
