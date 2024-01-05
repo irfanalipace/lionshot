@@ -162,6 +162,10 @@ class AuthController extends BaseController
                 $otp = rand(100000,999999);
                 $user = User::where('email', $request->email)->first();
 
+                if (!$user) {
+                    throw new \Exception('User not found, please try again with a correct email');
+                }
+
                 $user->otp = $otp;
                 $user->otp_created_at = Carbon::now();
                 $user->save();
