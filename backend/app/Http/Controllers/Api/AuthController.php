@@ -162,6 +162,10 @@ class AuthController extends BaseController
                 $otp = rand(100000,999999);
                 $user = User::where('email', $request->email)->first();
 
+                if (!$user) {
+                    throw new \Exception('User not found, please try again with a correct email');
+                }
+
                 $user->otp = $otp;
                 $user->otp_created_at = Carbon::now();
                 $user->save();
@@ -196,14 +200,17 @@ class AuthController extends BaseController
             return false;
         }
 
-        if ( $user->otp === $request->otp) {
-            // Check if the otp has expired;
-            $past = Carbon::parse($user->otp_created_at);
-
-            if (Carbon::now()->diffInMinutes($past) >= 5) {
-                return false;
-            }
+        if ($user->otp !== $request->otp) {
+            return false;
         }
+
+        // Check if the otp has expired;
+        $past = Carbon::parse($user->otp_created_at);
+
+        if (Carbon::now()->diffInMinutes($past) >= 5) {
+            return false;
+        }
+        
 
         if (gettype($callback) === 'object') {
             $callback($user, $request->password);
@@ -251,6 +258,9 @@ class AuthController extends BaseController
             $user->forceFill([
                 'password' => Hash::make($password)
             ])->setRememberToken(Str::random(60));
+
+            $user->otp = null;
+            $user->otp_created_at = null;
 
             $user->save();
 
