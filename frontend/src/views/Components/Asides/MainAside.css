@@ -1,0 +1,13 @@
+.custom-list-item.selected {
+	background-color: rgba(33, 149, 243, 0.144);
+}
+.custom-list-transition {
+	/* transition-timing-function: cubic-bezier(0.1, 0.7, 1, 0.1); */
+	/* transition: max-height 2s ease-in-out; */
+	overflow-y: hidden;
+}
+
+.subitem {
+	text-decoration: none;
+	color: rgba(0, 0, 0, 1);
+}

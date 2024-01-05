@@ -1,0 +1,80 @@
+/* .import-modal{
+    background:#F3F3F3 !important;
+   border-radius: 10px  !important;
+   box-shadow: none;
+   margin: 0px auto;
+   width: 50%;
+}
+.import-modal-card{
+    background: white;
+    border-radius: 10px;
+    margin: 0px 25px !important ;
+    
+}
+.import-modal-card .button-customer-detail{
+    margin-bottom: 10px;
+    margin-right: 20px;
+}
+.import-modal-card .button-contact-detail{
+    margin-bottom: 10px;
+}
+
+.choose-file{
+    background:#F3F3F3 !important;
+    padding: 5px 5px;
+    border-radius: 5px;
+}
+.import-modal .estimate-import{
+    margin-bottom: 20px 
+}
+.import-modal .estimate-import p{
+    margin-bottom:20px
+}
+.import-modal .customer-import{
+    margin-bottom: 20px 
+}
+.import-modal .customer-import p{
+    margin-bottom:20px
+}
+.import-modal .css-q0jhri-MuiInputBase-root-MuiInput-root:hover:not(.Mui-disabled, .Mui-error):before {
+    border-bottom: none !important
+}
+.import-modal .css-q0jhri-MuiInputBase-root-MuiInput-root:after {
+    border-bottom: none !important
+}
+.import-modal .css-q0jhri-MuiInputBase-root-MuiInput-root:before {
+    border-bottom: none !important
+}
+.import-modal.slide-in {
+
+    animation: slideIn 0.4s ease-in-out;
+
+  }
+
+ 
+
+  @keyframes slideIn {
+
+    0% {
+
+      transform: translateY(-100%);
+
+      opacity: 0;
+
+    }
+
+    100% {
+
+      transform: translateY(0);
+
+      opacity: 1;
+
+    }
+
+  }
+  .modal-container{
+    margin-top: 10vh;
+  }
+  .choose-file  .css-1ogwz4j-MuiInputBase-root-MuiInput-root:before{
+    border-bottom: 0px;
+  } */
