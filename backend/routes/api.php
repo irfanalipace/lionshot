@@ -23,6 +23,7 @@ Route::post('login', [AuthController::class, 'login']);
 // Forgot password
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->middleware('guest')->name('password.email');
 Route::post('/reset-password', [AuthController::class, 'resetPassword'])->middleware('guest')->name('password.reset');
+Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->middleware('guest')->name('verify.otp');
 
 
 Route::get('/email/verify', [AuthController::class, 'verificationNotice'])->middleware(['auth', 'verified'])->name('verification.notice');

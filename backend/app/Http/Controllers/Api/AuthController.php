@@ -17,6 +17,7 @@ use Illuminate\Support\Str;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Jobs\ForgotPassword;
 use App\Jobs\SendVerificationRequest;
+use Closure;
 
 class AuthController extends BaseController
 {
@@ -180,12 +181,17 @@ class AuthController extends BaseController
      * Validated the OTP and calls the callback
      *
      * @param Request $request
-     * @param \Closure $callback
+     * @param Closure $callback (optional)
      * @return bool
      */
-    function validateOTP(Request $request, \Closure $callback): bool
+    function validateOTP(Request $request, Closure $callback = null): bool
     {
         $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return false;
+        }
+
         if (!$user->otp || !$user->otp_created_at) {
             return false;
         }
@@ -199,9 +205,38 @@ class AuthController extends BaseController
             }
         }
 
-        $callback($user, $request->password);
+        if (gettype($callback) === 'object') {
+            $callback($user, $request->password);
+        }
 
         return true;
+    }
+
+    /**
+     * Verify the OTP which was sent to the user through forget-password api
+     *
+     * @param Request $requet
+     *
+     * @return JsonResponse
+     */
+    function verifyOtp(Request $request): JsonResponse
+    {
+        try {
+            $rules = [
+                'otp' => "required",
+                'email' => 'required|string'
+            ];
+
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) {
+                throw new \Exception($validator->errors()->first());
+            }
+
+            return $this->sendResponse($this->validateOTP($request), 'OTP verification');
+        } catch (\Throwable $th) {
+            return $this->sendError($th->getMessage(), null);
+        }
     }
 
     /**
