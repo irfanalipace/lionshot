@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/.pnpm/@mui+material@5.15.2_@emotion+react@11.11.3_@emotion+styled@11.11.0_@types+react@18.2.46_react-dom@18.2.0_react@18.2.0/node_modules/@mui/material/styles/identifier.js"],
+  "sourcesContent": ["export default '$$material';"],
+  "mappings": ";;;;;AAAA,IAAO;AAAP;AAAA;AAAA,IAAO,qBAAQ;AAAA;AAAA;",
+  "names": []
+}

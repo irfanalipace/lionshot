@@ -1,0 +1,19 @@
+.top-container {
+  background-color: white;
+  /* width: 100%; */
+  border-radius: 8px;
+  margin: 0.5em;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+}
+.top-container p {
+  font-size: 27px;
+}
+.btn-container {
+  display: flex;
+  justify-content: flex-end;
+}
+.btn-container Button {
+  margin-left: 0.75rem;
+}

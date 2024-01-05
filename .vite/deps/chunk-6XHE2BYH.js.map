@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/.pnpm/@mui+material@5.15.2_@emotion+react@11.11.3_@emotion+styled@11.11.0_@types+react@18.2.46_react-dom@18.2.0_react@18.2.0/node_modules/@mui/material/styles/defaultTheme.js"],
+  "sourcesContent": ["'use client';\n\nimport createTheme from './createTheme';\nconst defaultTheme = createTheme();\nexport default defaultTheme;"],
+  "mappings": ";;;;;;;;;AAAA,IAGM,cACC;AAJP;AAAA;AAAA;AAEA;AACA,IAAM,eAAe,oBAAY;AACjC,IAAO,uBAAQ;AAAA;AAAA;",
+  "names": []
+}

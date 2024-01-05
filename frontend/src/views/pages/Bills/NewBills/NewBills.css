@@ -1,0 +1,16 @@
+.textarea-autosize {
+    border-radius: 4px;
+    /* border: 1px solid black; */
+    padding: 8px;
+    font-family: Roboto;
+    font-size: 13px;
+    color: black;
+    /* transition: border-color 0.2s; Add a transition for smoother visual effect */
+  }
+  
+  .textarea-autosize:focus-within {
+    border-color: #1976d2  !important;
+  }
+  textarea:focus-within {
+    border-color:  #1976d2  !important;
+  }

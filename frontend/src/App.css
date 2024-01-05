@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&family=Roboto+Condensed:ital@1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@700&family=Roboto+Condensed:ital@1&display=swap');
+
+/* * {
+  transition: 1s linear;
+} */
+
+.outer-conatiner {
+  background-color: white;
+  border-radius: 8px;
+  margin: 0.5em;
+  padding: 20px;
+}
+.table-heading {
+  display: flex;
+  margin: 10px;
+  align-items: center;
+}
+.table-heading i {
+  color: rgba(33, 150, 243, 1);
+  margin-right: 5px;
+  font-size: 27px;
+}
+.table-heading p {
+  font-weight: 500;
+  font-size: 22px;
+}
+#root {
+  margin: 0 auto;
+  padding: 0rem;
+  background-color: #f3f3f3;
+  overflow: hidden;
+}
+.divider {
+  border-bottom: 1px solid black;
+  padding: 10px 0px;
+}
+.error {
+  font-size: 12px;
+  color: red;
+}
+.row {
+  display: flex;
+}
+.TextCapitalize {
+  text-transform: capitalize;
+}
+.css-1k51tf5-MuiTooltip-tooltip {
+  padding: 0 !important;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.err {
+  color: #d32f2f;
+  font-size: 12px;
+  margin-top: 4px;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  margin-right: 14px;
+  margin-left: 14px;
+  line-height: 1.66;
+  letter-spacing: 0.03333em;
+}
+.MuiInputAdornment-root {
+  margin-right: 0px !important;
+}
+.notyf__message {
+  font-family: 'roboto';
+}
+
+/* Webkit-based browsers (Chrome, Safari) */
+/* Change the scrollbar width */
+::-webkit-scrollbar {
+  width: 9px;
+  height: 5px;
+}
+
+/* Change the scrollbar track color */
+::-webkit-scrollbar-track {
+  /* background-color: lightgray; */
+}
+
+/* Change the scrollbar thumb (the draggable part) color */
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.44);
+  border-radius: 3px;
+}
