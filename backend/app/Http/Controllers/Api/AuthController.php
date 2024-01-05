@@ -200,14 +200,17 @@ class AuthController extends BaseController
             return false;
         }
 
-        if ( $user->otp === $request->otp) {
-            // Check if the otp has expired;
-            $past = Carbon::parse($user->otp_created_at);
-
-            if (Carbon::now()->diffInMinutes($past) >= 5) {
-                return false;
-            }
+        if ($user->otp !== $request->otp) {
+            return false;
         }
+
+        // Check if the otp has expired;
+        $past = Carbon::parse($user->otp_created_at);
+
+        if (Carbon::now()->diffInMinutes($past) >= 5) {
+            return false;
+        }
+        
 
         if (gettype($callback) === 'object') {
             $callback($user, $request->password);
@@ -255,6 +258,9 @@ class AuthController extends BaseController
             $user->forceFill([
                 'password' => Hash::make($password)
             ])->setRememberToken(Str::random(60));
+
+            $user->otp = null;
+            $user->otp_created_at = null;
 
             $user->save();
 
