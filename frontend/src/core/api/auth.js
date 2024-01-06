@@ -115,18 +115,21 @@ export function verifyEmailApi(email) {
 }
 
 export function verifyOtpApi(data) {
-  console.log('logo' , data)
+  console.log('Request to verifyOtpApi:', data);
   return new Promise((resolve, reject) => {
-    ApiService.post("verify-otp", {...data})
+    ApiService.post("/verify-otp", {
+      ...data,
+    } , null , true)
       .then((response) => {
-        resolve(response.data);
+        resolve(response);
       })
       .catch((e) => {
-        console.log("Console Log: : error", e);
         reject(e);
+       // alert("api error")
       });
   });
 }
+
 
 export function forgetPasswordApi(email) {
   return new Promise((resolve, reject) => {

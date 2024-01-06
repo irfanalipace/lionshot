@@ -112,6 +112,7 @@ export default function ResetPassword() {
   const handleSendCode = async () => {
     try {
       await dispatch(forgetPassword(formik.values));
+     
       // You can show a success message or handle the UI accordingly
     } catch (error) {
       console.log("Error sending code:", error);
@@ -121,6 +122,7 @@ export default function ResetPassword() {
    const handleContinue = async () => {
     try {
       await dispatch(verifyOtp({ email: formik.values.email, otp: Number(otp.join("")) }));
+      navigate("/forgot_password");
       // If the verification is successful, navigate to "/forgot_password"
      // navigate("/forgot_password");
       // Proceed with resetting the password or any other logic
