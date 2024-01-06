@@ -39,7 +39,8 @@ import {
   getTempToken,
   getUser,
   destroyTempKeys,
-  saveUserID
+  saveUserID,
+  saveOtp
 } from '../../services/authService';
 
 import ApiService from '../../services/apiService';
@@ -125,28 +126,31 @@ export const verifyEmail = (email, cb) => {
   };
 };
 
-export const verifyOtp = credentials => {
- // console.log('credentials' , credentials)
-  return async dispatch => {
+export const verifyOtp = (credentials) => {
+  console.log('credentials', credentials);
+  return async (dispatch) => {
     try {
       dispatch({ type: LOADING, payload: {} });
-     const resp = await verifyOtpApi({...credentials , otp: Number(credentials?.otp)});
-   //  console.log('reppp' , resp)
+      const resp = await verifyOtpApi({ ...credentials, otp: Number(credentials?.otp) });
+      console.log('reppp', resp); // Move this line inside the try block
+      // alert('hh')
+      
       notyf.success('Otp Verified');
-     // const OTP = localStorage.setItem('resetPasswordOTP', JSON.stringify({otp: Number(credentials?.otp)}));
-      console.log(OTP,'PPPPPPPPP')
-      let temp_token = getTempToken();
-      let user = getUser();
-      dispatch({ type: VERIFY_OTP, payload: { ...user } });
-      destroyTempKeys(); // destroy user password and temporary token after login success
-      saveToken(temp_token); // stores temporary token in right key to be used later for calling protected apis
-      // toast.success('Login Successful');
+      if(resp?.success){
+        saveOtp(credentials?.otp)
+        
+      }
+  
+      dispatch({ type: VERIFY_OTP, payload: { ...credentials } });
+     
     } catch (error) {
-      // console.print('Something went wrong in login', error);
+      console.error('Error in verifyOtp:', error);
       dispatch({ type: API_ERROR, payload: error?.data?.errors });
+     // alert('Error in verifyOtp: ' + error.message);
     }
   };
 };
+
 
 
 // export const verifyOtp = credentials => {
@@ -217,15 +221,19 @@ export const resetPassword = (credentials, cb) => {
 };
 
 export const forgetPassword = (credentials, cb) => {
+ // alert('1')
   return async dispatch => {
     try {
       dispatch({ type: LOADING, payload: {} });
       const resp = await forgetPasswordApi(credentials);
+      // alert('2')
       // toastr.success(resp?.message);
+      console.log('respppo' , resp)
       notyf.success(`${resp?.message}! `);
       dispatch({ type: CLEAR_LOADING, payload: {} });
       if (typeof cb === 'function') cb();
     } catch (error) {
+     // alert('')
       // handleErrors(error?.data?.message);
       dispatch({ type: API_ERROR, payload: error?.data?.errors });
     }

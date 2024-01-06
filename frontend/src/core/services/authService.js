@@ -5,6 +5,8 @@ const USER = 'user';
 const PASSWORD = 'user_password';
 const USER_STATE = 'state';
 const TEMP_TOKEN = 'temp_token';
+const OTP= 'otp';
+
 
 export const getToken = () => {
   return window.localStorage.getItem(TOKEN);
@@ -12,7 +14,13 @@ export const getToken = () => {
 export const saveToken = token => {
   window.localStorage.setItem(TOKEN, token);
 };
-
+export const saveOtp = otp => {
+  //alert(otp)
+  window.localStorage.setItem(OTP, otp);
+};
+export const getOTP = () => {
+  return window.localStorage.getItem(OTP);
+};
 export const saveUser = user => {
   const userDetails = { ...user, name: user.name || user.user };
   window.localStorage.setItem(USER, JSON.stringify(userDetails));
