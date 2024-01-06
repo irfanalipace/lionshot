@@ -18,6 +18,7 @@ use App\Http\Requests\ResetPasswordRequest;
 use App\Jobs\ForgotPassword;
 use App\Jobs\SendVerificationRequest;
 use Closure;
+use Spatie\Permission\Models\Role;
 
 class AuthController extends BaseController
 {
@@ -42,6 +43,10 @@ class AuthController extends BaseController
             ]);
 
             if($user->save()){
+                // Assign a role to the user
+                $role = Role::findByName('user', 'api');
+                $user->assignRole($role);
+
                 // We should use SALT
                 $tokenResult = $user->createToken('Personal Access Token');
                 $token = $tokenResult->accessToken;
@@ -210,7 +215,7 @@ class AuthController extends BaseController
         if (Carbon::now()->diffInMinutes($past) >= 5) {
             return false;
         }
-        
+
 
         if (gettype($callback) === 'object') {
             $callback($user, $request->password);
@@ -240,7 +245,13 @@ class AuthController extends BaseController
                 throw new \Exception($validator->errors()->first());
             }
 
-            return $this->sendResponse($this->validateOTP($request), 'OTP verification');
+            $otp_success = $this->validateOTP($request);
+
+            if ($otp_success) {
+                return $this->sendResponse($otp_success, 'OTP verification');
+            }
+
+            return $this->sendError('OTP mismatched', null, '403');
         } catch (\Throwable $th) {
             return $this->sendError($th->getMessage(), null);
         }
