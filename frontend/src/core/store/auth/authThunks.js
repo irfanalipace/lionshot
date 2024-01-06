@@ -126,10 +126,15 @@ export const verifyEmail = (email, cb) => {
 };
 
 export const verifyOtp = credentials => {
+ // console.log('credentials' , credentials)
   return async dispatch => {
     try {
       dispatch({ type: LOADING, payload: {} });
-      await verifyOtpApi(credentials);
+     const resp = await verifyOtpApi({...credentials , otp: Number(credentials?.otp)});
+   //  console.log('reppp' , resp)
+      notyf.success('Otp Verified');
+     // const OTP = localStorage.setItem('resetPasswordOTP', JSON.stringify({otp: Number(credentials?.otp)}));
+      console.log(OTP,'PPPPPPPPP')
       let temp_token = getTempToken();
       let user = getUser();
       dispatch({ type: VERIFY_OTP, payload: { ...user } });
@@ -142,6 +147,56 @@ export const verifyOtp = credentials => {
     }
   };
 };
+
+
+// export const verifyOtp = credentials => {
+//   return async dispatch => {
+//     try {
+//       dispatch({ type: LOADING, payload: {} });
+//       const resp = await verifyOtpApi({...credentials , otp: Number(credentials?.otp)});
+//       console.log(resp,'ressp')
+//       if (resp.status) {
+//         // If verification is successful (status is true)
+//         notyf.success('Otp Verified');
+
+//         // Save OTP to local storage
+//         localStorage.setItem('resetPasswordOTP', credentials.otp);
+
+//         // Perform other actions if needed
+//         let tempToken = getTempToken();
+//         let user = getUser();
+//         dispatch({ type: VERIFY_OTP, payload: { ...user } });
+//         destroyTempKeys(); // Destroy user password and temporary token after login success
+//         saveToken(tempToken); // Store temporary token in the right key to be used later for calling protected APIs
+
+//         // Navigate to reset_password route
+//         // You can use your navigation library or window.location.href for redirection
+//         // Example using react-router-dom:
+//         // import { useHistory } from 'react-router-dom';
+//         // const history = useHistory();
+//         // history.push('/reset_password');
+//       } else {
+//         // Handle the case where verification fails
+//         console.log('Verification failed');
+//         // You can dispatch an action or handle it in any other way
+//       }
+//     } catch (error) {
+//       console.log('Error in verifyOtp:', error);
+//       dispatch({ type: API_ERROR, payload: error?.data?.errors });
+//     }
+//   };
+// };
+
+
+
+
+
+
+
+
+
+
+
 
 export const resetPassword = (credentials, cb) => {
   return async dispatch => {
