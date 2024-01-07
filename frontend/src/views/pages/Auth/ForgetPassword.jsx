@@ -347,6 +347,7 @@ export default function ForgotPassword() {
         };
         await dispatch(resetPassword(payload, cb));
       } catch (error) {
+       
       } finally {
         setSubmitting(false);
       }

@@ -30,7 +30,7 @@ import {
   getAllPurchaseordersApi,
   singleDeletePurchaseOrdersApi
 } from '../../../core/api/purchase';
-
+import { CorApi } from '../../../core/api/correports';
 import lazy from 'components/LazyLoadWithRetry/LazyLoadWithRetry.jsx';
 import {
   StatusColor,
@@ -60,13 +60,13 @@ import DateRangeHeader from '../../Components/DateRangeHeader/DateRangeHeader';
 const ViewPurchase = lazy(() => import('./ViewPurchase'));
 
 
-const PurchaseOrders = () => {
+const CorReport = () => {
   const theme = useTheme();
 
   const intialColumns = [
    
     {
-      accessorKey: 'purchase_order_number',
+      accessorKey: 'invoice',
       header: 'Invoice',
       Cell: ({ renderedCellValue, row }) => (
         <Typography variant='body2' color='primary'>
@@ -198,7 +198,7 @@ const PurchaseOrders = () => {
       setRefresh(prev => prev + 1);
       notyf.success('Purchase orders deleted successfully');
     } catch (error) {
-      notyf.error('Something went wrong');
+     // notyf.error('Something went wrong');
     }
   };
 
@@ -421,7 +421,7 @@ const PurchaseOrders = () => {
           
             <DataTable
               columns={columns}
-              api={getAllPurchaseordersApi}
+              api={CorApi}
               setSelectedRows={setSelectedRows}
               onRowClick={handleRowClick}
               refresh={refresh}
@@ -466,4 +466,4 @@ const PurchaseOrders = () => {
   );
 };
 
-export default PurchaseOrders;
+export default CorReport;

@@ -209,19 +209,19 @@ const HeaderCustomer = lazy(() =>
 const SalesOrderList = lazy(() =>
 	import('../../views/pages/SalesOrder/SalesOrderList/SalesOrderList')
 );
-const PurchaseOrders = lazy(() =>
-	import('../../views/pages/PurchaseOrders/PurchaseOrders')
+const CorReport = lazy(() =>
+	import('../../views/pages/Reports/CorReport')
 );
 
 const NewPurchaseOrders = lazy(() =>
 	import(
-		'../../views/pages/PurchaseOrders/PurchaseOrdersForm/NewPurchaseOrders/NewPurchaseOrders'
+		'../../views/pages/Reports/PurchaseOrdersForm/NewPurchaseOrders/NewPurchaseOrders'
 	)
 );
 
 const EditPurchaseOrders = lazy(() =>
 	import(
-		'../../views/pages/PurchaseOrders/PurchaseOrdersForm/EdirPurchaseOrder/EditPurchaseOrders'
+		'../../views/pages/Reports/PurchaseOrdersForm/EdirPurchaseOrder/EditPurchaseOrders'
 	)
 );
 const CreditMemoList = lazy(() =>
@@ -914,11 +914,11 @@ export const routes = [
 	},
 	// purchase order routes
 	{
-		path: '/purchase-orders',
+		path: '/cor',
 		page: (
 			<ProtectedRoute>
 				<PageWrapper isSidebar={true}>
-					<PurchaseOrders />
+					<CorReport />
 				</PageWrapper>
 			</ProtectedRoute>
 		),

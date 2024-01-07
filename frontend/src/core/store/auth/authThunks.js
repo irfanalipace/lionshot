@@ -218,7 +218,7 @@ export const resetPassword = (credentials, cb) => {
       // toast.success('Password Changed Successfully');
       if (typeof cb === 'function') cb();
     } catch (error) {
-      notyf.success(`${resp?.message}! `);
+    // alert("error")
       // console.print('Something went wrong in login', error);
       dispatch({ type: API_ERROR, payload: error?.data?.errors });
     //  notyf.success(`${resp?.message}! `);
