@@ -270,8 +270,10 @@ import LockIcon from '@mui/icons-material/Lock';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import Alert from '@mui/material/Alert';
-import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import IconButton from '@mui/material/IconButton';
+
+// Replace 'path-to-your-local-storage-functions' with the actual path
+import { getEmail, saveEmail, getOTP, saveOtp  } from '../../../core/services/authService';
 
 // styles
 import {
@@ -303,12 +305,24 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function ForgotPassword() {
-  const apiError = useSelector(state => state?.auth?.apiError);
+  const apiError = useSelector((state) => state?.auth?.apiError);
   const [errors, setErrors] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  // Get email and OTP from localStorage
+  const storedEmail = getEmail();
+  const storedOTP = getOTP();
+
+  // Redirect to login if email or OTP is not present in localStorage
+  useEffect(() => {
+    if (!storedEmail || !storedOTP) {
+      navigate('/login');
+    }
+  }, [storedEmail, storedOTP]);
+
   function cb() {
     formik.resetForm();
     navigate('/login');
@@ -318,11 +332,20 @@ export default function ForgotPassword() {
     initialValues: {
       password: '',
       password_confirmation: '',
+      email: storedEmail || '',
+      otp: storedOTP || '',
     },
     validationSchema: validationSchema,
     onSubmit: async (values, { setSubmitting }) => {
       try {
-        await dispatch(resetPassword(values, cb));
+        // Include email and OTP in the payload
+        const payload = {
+          password: values.password,
+          password_confirmation: values.password_confirmation,
+          email: values.email,
+          otp: values.otp,
+        };
+        await dispatch(resetPassword(payload, cb));
       } catch (error) {
       } finally {
         setSubmitting(false);
@@ -387,7 +410,10 @@ export default function ForgotPassword() {
         <Grid item container display='flex' justifyContent='center'>
           <Grid item>
             <AuthSection>
-              <Grid item sx={{ display: 'flex', justifyContent: 'center' }}>
+              <Grid
+                item
+                sx={{ display: 'flex', justifyContent: 'center' }}
+              >
                 <AuthLogoContainer />
               </Grid>
               <FormContainer>
@@ -409,7 +435,7 @@ export default function ForgotPassword() {
                     password
                     fullWidth
                     size='small'
-                    label='Re-type New Password'
+                    label='New Password'
                     placeholder='******'
                     variant='outlined'
                     style={{ marginY: '.5rem' }}
@@ -510,3 +536,4 @@ export default function ForgotPassword() {
     </AuthMainContainer>
   );
 }
+

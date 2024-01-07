@@ -1,6 +1,6 @@
 // import { toast } from 'react-toastify';
 import notyf from '../../../views/Components/NotificationMessage/notyfInstance'; // Import the Notyf instance
-
+import { useNavigate } from "react-router-dom";
 import {
   LOGIN,
   LOGOUT,
@@ -40,7 +40,8 @@ import {
   getUser,
   destroyTempKeys,
   saveUserID,
-  saveOtp
+  saveOtp,
+  saveEmail
 } from '../../services/authService';
 
 import ApiService from '../../services/apiService';
@@ -138,6 +139,9 @@ export const verifyOtp = (credentials) => {
       notyf.success('Otp Verified');
       if(resp?.success){
         saveOtp(credentials?.otp)
+        saveEmail(credentials?.email)
+      //  alert("save email", credentials?.email)
+        navigate("/forget_password");
         
       }
   
@@ -214,8 +218,10 @@ export const resetPassword = (credentials, cb) => {
       // toast.success('Password Changed Successfully');
       if (typeof cb === 'function') cb();
     } catch (error) {
+      notyf.success(`${resp?.message}! `);
       // console.print('Something went wrong in login', error);
       dispatch({ type: API_ERROR, payload: error?.data?.errors });
+    //  notyf.success(`${resp?.message}! `);
     }
   };
 };

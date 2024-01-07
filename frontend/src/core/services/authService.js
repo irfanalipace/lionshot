@@ -6,13 +6,20 @@ const PASSWORD = 'user_password';
 const USER_STATE = 'state';
 const TEMP_TOKEN = 'temp_token';
 const OTP= 'otp';
-
+const userEmail="email"
 
 export const getToken = () => {
   return window.localStorage.getItem(TOKEN);
 };
 export const saveToken = token => {
   window.localStorage.setItem(TOKEN, token);
+};
+export const getEmail = () => {
+  return window.localStorage.getItem(userEmail);
+};
+export const saveEmail = email => {
+  //alert(otp)
+  window.localStorage.setItem(userEmail, email);
 };
 export const saveOtp = otp => {
   //alert(otp)
