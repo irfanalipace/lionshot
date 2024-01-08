@@ -127,34 +127,97 @@ export const logout = () => {
 //   };
 // };
 
-export const verifyOtp = (credentials) => {
- // console.log('credentials', credentials);
+// export const verifyOtp = (credentials) => {
+//  // console.log('credentials', credentials);
+//   return async (dispatch) => {
+//     try {
+//       dispatch({ type: LOADING, payload: {} });
+//       const resp = await verifyOtpApi({ ...credentials, otp: Number(credentials?.otp) });
+//       console.log('reppp', resp); // Move this line inside the try block
+//       // alert('hh')
+      
+//       notyf.success('Otp Verified');
+//       if(resp?.success){
+//         saveOtp(credentials?.otp)
+//         saveEmail(credentials?.email)
+//       //  alert("save email", credentials?.email)
+
+        
+//       }
+  
+//       dispatch({ type: VERIFY_OTP, payload: { ...credentials } });
+     
+//     } catch (error) {
+//       console.error('Error in verifyOtp:', error);
+//       dispatch({ type: API_ERROR, payload: error?.data?.errors });
+//      // alert('Error in verifyOtp: ' + error.message);
+//     }
+//   };
+// };
+// export const verifyOtp = (credentials, navigateCallback) => {
+//   return async (dispatch) => {
+//     try {
+//       dispatch({ type: LOADING, payload: {} });
+//       const resp = await verifyOtpApi({ ...credentials, otp: Number(credentials?.otp) });
+//    //   alert(typeof navigateCallback, resp?.data?.success);
+//       notyf.success('Otp Verified');
+// console.log(resp?.data?.success,"otp response")
+//       if (resp?.data?.success) {
+//         saveOtp(credentials?.otp);
+//         saveEmail(credentials?.email);
+//         // Call the callback with success as true
+//         alert(callback,'callback')
+//         navigateCallback()
+//       } else {
+//         // Call the callback with success as false and the error message
+//        // callback(false, resp?.message);
+//       }
+
+//       dispatch({ type: VERIFY_OTP, payload: { ...credentials } });
+//     } catch (error) {
+//       console.error('Error in verifyOtp:', error);
+//       dispatch({ type: API_ERROR, payload: error?.data?.errors });
+//       // Call the callback with success as false and the error message
+//       callback(false, 'Error in verifyOtp: ' + error.message);
+//     }
+//   };
+// };
+
+// yourThunk.js
+
+// yourThunk.js
+
+export const verifyOtp = (credentials, navigateCallback) => {
   return async (dispatch) => {
     try {
       dispatch({ type: LOADING, payload: {} });
       const resp = await verifyOtpApi({ ...credentials, otp: Number(credentials?.otp) });
-      console.log('reppp', resp); // Move this line inside the try block
-      // alert('hh')
-      
       notyf.success('Otp Verified');
-      if(resp?.success){
-        saveOtp(credentials?.otp)
-        saveEmail(credentials?.email)
-      //  alert("save email", credentials?.email)
-        navigate("/forget_password");
-        
+
+     // console.log('resp?.data?.success', resp.data);
+
+      if (resp?.data) {
+       // console.log(typeof navigateCallback, 'rrrr');
+        saveOtp(credentials?.otp);
+        saveEmail(credentials?.email);
+        // Call the navigate callback
+        navigateCallback();
+      } else {
+        // Handle the case where OTP verification fails
+       // alert("Error in OTP verification:", resp?.message);
+        // You may want to display an error message to the user
+        // or take appropriate action based on the backend message
       }
-  
-      dispatch({ type: VERIFY_OTP, payload: { ...credentials } });
-     
+
+    //  dispatch({ type: VERIFY_OTP, payload: { ...credentials } });
     } catch (error) {
       console.error('Error in verifyOtp:', error);
       dispatch({ type: API_ERROR, payload: error?.data?.errors });
-     // alert('Error in verifyOtp: ' + error.message);
+      // Handle other errors, if any
+      // For example, you can display a generic error message to the user
     }
   };
 };
-
 
 
 // export const verifyOtp = credentials => {
@@ -201,11 +264,6 @@ export const verifyOtp = (credentials) => {
 
 
 
-
-
-
-
-
 export const resetPassword = (credentials, cb) => {
   return async dispatch => {
     try {
@@ -234,14 +292,15 @@ export const forgetPassword = (credentials, cb) => {
       const resp = await forgetPasswordApi(credentials);
       // alert('2')
       // toastr.success(resp?.message);
-      console.log('respppo' , resp)
+      console.log('resppposs' , resp?.data)
       notyf.success(`${resp?.message}! `);
       dispatch({ type: CLEAR_LOADING, payload: {} });
       if (typeof cb === 'function') cb();
     } catch (error) {
+    //  alert("error")
      // alert('')
       // handleErrors(error?.data?.message);
-      dispatch({ type: API_ERROR, payload: error?.data?.errors });
+    //  dispatch({ type: API_ERROR, payload: error?.data?.errors });
     }
   };
 };

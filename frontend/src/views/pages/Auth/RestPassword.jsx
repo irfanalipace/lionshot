@@ -135,28 +135,26 @@ export default function ResetPassword() {
   //   }
   // };
   
-  const handleContinue = async () => {
-    try {
-      // Ensure both email and OTP are provided
-      if (!formik.values.email || otp.length === 0) {
-        // Display an error message or take appropriate action
-        console.log("Please provide both email and OTP");
-        return;
-      }
+  // YourComponent.js
+
+const handleContinue = async () => {
+  try {
+    await dispatch(
+      verifyOtp(
+        { email: formik.values.email, otp: Number(otp.join("")) },
+        () => navigate("/forgot_password") // Pass a callback to navigate
+      )
+    );
+  } catch (error) {
+    console.log("Error verifying OTP:", error);
+    // Handle other errors, if any
+    // For example, you can display a generic error message to the user
+  }
+};
+
   
-      await dispatch(verifyOtp({ email: formik.values.email, otp: Number(otp.join("")) }));
-      
-      // If the verification is successful, navigate to "/forgot_password"
-      navigate("/forgot_password");
-      
-      // Proceed with resetting the password or any other logic
-    } catch (error) {
-      console.log("Error verifying OTP:", error);
-      // Handle the case where OTP verification fails
-      // For example, you can display an error message to the user
-    }
-  };
   
+
   return (
     <AuthMainContainer>
       <Grid container>

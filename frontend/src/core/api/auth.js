@@ -174,11 +174,11 @@ export function forgetPasswordApi(email) {
 export function resetPasswordApi(credentials) {
   // Extract required data from credentials or use it directly based on your API requirements
   const { email, otp, password,password_confirmation } = credentials;
-
   // You may need to adjust the API endpoint and payload based on your server-side implementation
   const apiEndpoint = 'reset-password'; // Update this with your actual endpoint
 
   return new Promise(async (resolve, reject) => {
+
     try {
       const response = await ApiService.post(apiEndpoint, {
         email,
