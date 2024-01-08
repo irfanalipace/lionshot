@@ -112,23 +112,23 @@ export const logout = () => {
   };
 };
 
-export const verifyEmail = (email, cb) => {
-  return async dispatch => {
-    try {
-      dispatch({ type: LOADING, payload: {} });
-      await verifyEmailApi(email);
-      saveUserEmail(email);
-      dispatch({ type: VERIFY_EMAIL, payload: email });
-      if (typeof cb === 'function') cb();
-    } catch (error) {
-      // console.print('Something went wrong in login', error);
-      dispatch({ type: API_ERROR, payload: error?.data?.errors });
-    }
-  };
-};
+// export const verifyEmail = (email, cb) => {
+//   return async dispatch => {
+//     try {
+//       dispatch({ type: LOADING, payload: {} });
+//       await verifyEmailApi(email);
+//       saveUserEmail(email);
+//       dispatch({ type: VERIFY_EMAIL, payload: email });
+//       if (typeof cb === 'function') cb();
+//     } catch (error) {
+//       // console.print('Something went wrong in login', error);
+//       dispatch({ type: API_ERROR, payload: error?.data?.errors });
+//     }
+//   };
+// };
 
 export const verifyOtp = (credentials) => {
-  console.log('credentials', credentials);
+ // console.log('credentials', credentials);
   return async (dispatch) => {
     try {
       dispatch({ type: LOADING, payload: {} });

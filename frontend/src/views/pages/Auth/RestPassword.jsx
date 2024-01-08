@@ -33,6 +33,7 @@ const validationSchema = Yup.object().shape({
   email: Yup.string()
     .email("Invalid email format")
     .required("Email is required"),
+    otp: Yup.string().required("OTP is required"),
 });
 
 export default function ResetPassword() {
@@ -48,6 +49,7 @@ export default function ResetPassword() {
   const formik = useFormik({
     initialValues: {
       email: "",
+      otp: "", // Add the otp field
     },
     validationSchema: validationSchema,
     onSubmit: async (values, { setSubmitting }) => {
@@ -118,13 +120,35 @@ export default function ResetPassword() {
       console.log("Error sending code:", error);
     }
   };
-   console.log('formikk' , formik.values.email)
-   const handleContinue = async () => {
+ //  console.log('formikk' , formik.values.email)
+  //  const handleContinue = async () => {
+  //   try {
+  //     await dispatch(verifyOtp({ email: formik.values.email, otp: Number(otp.join("")) }));
+  //     navigate("/forgot_password");
+  //     // If the verification is successful, navigate to "/forgot_password"
+  //    // navigate("/forgot_password");
+  //     // Proceed with resetting the password or any other logic
+  //   } catch (error) {
+  //     console.log("Error verifying OTP:", error);
+  //     // Handle the case where OTP verification fails
+  //     // For example, you can display an error message to the user
+  //   }
+  // };
+  
+  const handleContinue = async () => {
     try {
+      // Ensure both email and OTP are provided
+      if (!formik.values.email || otp.length === 0) {
+        // Display an error message or take appropriate action
+        console.log("Please provide both email and OTP");
+        return;
+      }
+  
       await dispatch(verifyOtp({ email: formik.values.email, otp: Number(otp.join("")) }));
-      navigate("/forgot_password");
+      
       // If the verification is successful, navigate to "/forgot_password"
-     // navigate("/forgot_password");
+      navigate("/forgot_password");
+      
       // Proceed with resetting the password or any other logic
     } catch (error) {
       console.log("Error verifying OTP:", error);
