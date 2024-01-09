@@ -22,7 +22,7 @@ import {
   verifyOtpApi,
   resetPasswordApi,
   forgetPasswordApi,
-  verifyEmailApi,
+  //  verifyEmailApi,
   updateProfileApi,
   updatePasswordApi,
   deleteProfilePicApi,
@@ -48,7 +48,7 @@ import {
 import ApiService from "../../services/apiService";
 import { handleErrors } from "../../utils/helpers";
 
-export const login = (credentials) => {
+export const  login = (credentials) => {
   return async (dispatch) => {
     try {
       dispatch({ type: LOADING, payload: {} });
@@ -185,20 +185,17 @@ export const logout = () => {
 //   };
 // };
 
-// yourThunk.js
-
-// yourThunk.js
-
 export const verifyOtp = (credentials, navigateCallback) => {
   return async (dispatch) => {
     try {
       dispatch({ type: LOADING, payload: {} });
+
       const resp = await verifyOtpApi({
         ...credentials,
         otp: Number(credentials?.otp),
       });
       notyf.success("Otp Verified");
-
+      // alert("LL")
       // console.log('resp?.data?.success', resp.data);
 
       if (resp?.data) {
@@ -208,18 +205,18 @@ export const verifyOtp = (credentials, navigateCallback) => {
         // Call the navigate callback
         navigateCallback();
       } else {
+        //  alert("ss")
         // Handle the case where OTP verification fails
-        // alert("Error in OTP verification:", resp?.message);
+        console.log("Error in OTP verification:", resp?.message);
         // You may want to display an error message to the user
         // or take appropriate action based on the backend message
       }
 
       //  dispatch({ type: VERIFY_OTP, payload: { ...credentials } });
     } catch (error) {
-      console.error("Error in verifyOtp:", error);
-      dispatch({ type: API_ERROR, payload: error?.data?.errors });
-      // Handle other errors, if any
-      // For example, you can display a generic error message to the user
+      //  alert("ss")
+      //  console.error("Error in verifyOtp:", error);
+      notifyWarning.success("Something Invalid");
     }
   };
 };
@@ -279,7 +276,7 @@ export const resetPassword = (credentials, cb) => {
       //  notyf.success(`${resp?.message}! `);
     }
   };
-};
+};  
 
 export const forgetPassword = (credentials, cb) => {
   // alert('1')
@@ -287,17 +284,15 @@ export const forgetPassword = (credentials, cb) => {
     try {
       dispatch({ type: LOADING, payload: {} });
       const resp = await forgetPasswordApi(credentials);
-      // alert('2')
-      // toastr.success(resp?.message);
       console.log("resppposs", resp?.data);
       notyf.success(`${resp?.message}! `);
-      //  dispatch({ type: CLEAR_LOADING, payload: {} });
-      //  if (typeof cb === 'function') cb();
+      dispatch({ type: CLEAR_LOADING, payload: {} });
+      if (typeof cb === "function") cb();
     } catch (error) {
       //  alert("error")
       // alert('')
-      // handleErrors(error?.data?.message);
-      //  dispatch({ type: API_ERROR, payload: error?.data?.errors });
+      handleErrors(error?.data?.message);
+      dispatch({ type: API_ERROR, payload: error?.data?.errors });
     }
   };
 };

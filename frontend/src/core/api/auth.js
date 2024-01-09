@@ -94,25 +94,25 @@ export function logoutApi() {
   });
 }
 
-export function verifyEmailApi() {
-  return new Promise((resolve, reject) => {
-    ApiService.post("verify-email", {
-      // email,
-      // formData,
-    })
-      .then((response) => {
-        console.print(
-          "file: auth.module.js | verifyEmailApi| response",
-          response
-        );
-        resolve(response.data);
-      })
-      .catch((e) => {
-        // console.print("Console Log: : error", e);
-        reject(e);
-      });
-  });
-}
+// export function verifyEmailApi() {
+//   return new Promise((resolve, reject) => {
+//     ApiService.post("verify-email", {
+//        email,
+//        formData,
+//     })
+//       .then((response) => {
+//         console.print(
+//           "file: auth.module.js | verifyEmailApi| response",
+//           response
+//         );
+//         resolve(response.data);
+//       })
+//       .catch((e) => {
+//         // console.print("Console Log: : error", e);
+//         reject(e);
+//       });
+//   });
+// }
 
 export function verifyOtpApi(data) {
   console.log('Request to verifyOtpApi:', data);
