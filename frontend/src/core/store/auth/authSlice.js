@@ -1,11 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 import {
   destroyToken,
   getToken,
   getUser,
-  saveToken
-} from '../../services/authService';
-import ApiService from '../../services/apiService';
+  saveToken,
+} from "../../services/authService";
+import ApiService from "../../services/apiService";
 
 const token = getToken();
 token && ApiService.setAuthToken(token);
@@ -16,45 +16,45 @@ const initialState = {
   apiError: null,
   isLoading: false,
   isDeletingPic: false,
-  successMsg: ''
+  successMsg: "",
   // accessToken: userData?.accessToken || '',
   // currentPage: 1
 };
 
 const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState,
   reducers: {
-    LOADING: state => {
+    LOADING: (state) => {
       state.isLoading = true;
     },
-    CLEAR_LOADING: state => {
+    CLEAR_LOADING: (state) => {
       state.isLoading = false;
     },
     LOGIN: (state, action) => {
-      console.log('action.payload', action.payload);
+      console.log("action.payload", action.payload);
       return {
         ...state,
         isLoading: false,
         apiError: null,
         isAuthenticated: true,
-        user: action.payload
+        user: action.payload,
       };
     },
-    LOGOUT: state => {
+    LOGOUT: (state) => {
       state.isAuthenticated = false;
       state.isLoading = false;
       state.user = null;
       state.apiError = null;
-      ApiService.setHeader('Authorization', '');
-      window.localStorage.removeItem('token');
+      ApiService.setHeader("Authorization", "");
+      window.localStorage.removeItem("token");
     },
     REGISTER: (state, action) => {
       state.isLoading = false;
       state.apiError = null;
       state.user = action.payload;
     },
-    VERIFY_EMAIL: state => {
+    VERIFY_EMAIL: (state) => {
       state.isLoading = false;
       // state.currentPage = parseInt(state.currentPage) + 1;
       state.apiError = null;
@@ -75,21 +75,21 @@ const authSlice = createSlice({
     DELETING_PROFILE_PIC: (state, action) => {
       state.isDeletingPic = true;
     },
-    RESET_PAGE: state => {
+    RESET_PAGE: (state) => {
       // state.currentPage = 1;
     },
     API_ERROR: (state, action) => {
       return {
         ...state,
         apiError: action.payload,
-        isLoading: false
+        isLoading: false,
         // isDeletingPic = false;
       };
     },
-    CLEAR_API_ERRORS: state => {
+    CLEAR_API_ERRORS: (state) => {
       state.apiError = null;
-    }
-  }
+    },
+  },
 });
 export const {
   LOGIN,
@@ -103,6 +103,6 @@ export const {
   DELETING_PROFILE_PIC,
   RESET_PAGE,
   API_ERROR,
-  CLEAR_API_ERRORS
+  CLEAR_API_ERRORS,
 } = authSlice.actions;
 export default authSlice.reducer;

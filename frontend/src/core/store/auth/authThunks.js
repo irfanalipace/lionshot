@@ -1,5 +1,6 @@
 // import { toast } from 'react-toastify';
-import notyf from '../../../views/Components/NotificationMessage/notyfInstance'; // Import the Notyf instance
+import notyf from "../../../views/Components/NotificationMessage/notyfInstance"; // Import the Notyf instance
+import notifyWarning from "../../../views/Components/NotificationMessage/notifyWarning";
 import { useNavigate } from "react-router-dom";
 import {
   LOGIN,
@@ -12,8 +13,8 @@ import {
   UPDATE_PROFILE,
   API_ERROR,
   DELETING_PROFILE_PIC,
-  CLEAR_API_ERRORS
-} from './authSlice';
+  CLEAR_API_ERRORS,
+} from "./authSlice";
 import {
   loginApi,
   logoutApi,
@@ -24,8 +25,8 @@ import {
   verifyEmailApi,
   updateProfileApi,
   updatePasswordApi,
-  deleteProfilePicApi
-} from '../../api/auth';
+  deleteProfilePicApi,
+} from "../../api/auth";
 import {
   saveToken,
   destroyToken,
@@ -41,42 +42,43 @@ import {
   destroyTempKeys,
   saveUserID,
   saveOtp,
-  saveEmail
-} from '../../services/authService';
+  saveEmail,
+} from "../../services/authService";
 
-import ApiService from '../../services/apiService';
-import { handleErrors } from '../../utils/helpers';
+import ApiService from "../../services/apiService";
+import { handleErrors } from "../../utils/helpers";
 
-export const login = credentials => {
-  return async dispatch => {
+export const login = (credentials) => {
+  return async (dispatch) => {
     try {
       dispatch({ type: LOADING, payload: {} });
       const response = await loginApi(credentials);
 
-      const token = response?.data?.access_token;
+      const token = response?.data?.accessToken;
       saveToken(token);
       saveUser(response?.data);
       ApiService.setAuthToken(token);
       const user = response?.data;
       dispatch({
         type: LOGIN,
-        payload: { ...user, name: user.name || user.user }
+        payload: { ...user, name: user.name || user.user },
       });
       // toastr.success(response?.message);
-      notyf.success('Login successful ');
+      notyf.success("Login successful ");
 
       // dispatch({ type: CLEAR_API_ERRORS, payload: {} });
 
       // return response;
     } catch (error) {
-      dispatch({ type: API_ERROR, payload: error });
-      if(!error?.data?.message?.credentials) notyf.error(error?.data?.message || 'Something went wrong');
+      alert("Invalid Cridential");
+      //  dispatch({ type: API_ERROR, payload: error });
+      // if(!error?.data?.message?.credentials) notyf.error(error?.data?.message || 'Something went wrong');
     }
   };
 };
 
 export const register = (credentials, cb) => {
-  return async dispatch => {
+  return async (dispatch) => {
     try {
       dispatch({ type: LOADING, payload: {} });
       const resp = await registerApi(credentials);
@@ -84,21 +86,21 @@ export const register = (credentials, cb) => {
       notyf.success(`${resp?.message}! `);
 
       dispatch({ type: REGISTER, payload: resp });
-      if (typeof cb === 'function') {
+      if (typeof cb === "function") {
         cb();
       }
     } catch (error) {
-      console.error('Error in register action:', error); // Add this line for debugging
+      console.error("Error in register action:", error); // Add this line for debugging
       dispatch({ type: API_ERROR, payload: error?.data?.errors });
-      if (typeof cb === 'function') {
-        cb('catch');
+      if (typeof cb === "function") {
+        cb("catch");
       }
     }
   };
 };
 
 export const logout = () => {
-  return async dispatch => {
+  return async (dispatch) => {
     try {
       dispatch({ type: LOADING, payload: {} });
       const resp = await logoutApi();
@@ -135,18 +137,17 @@ export const logout = () => {
 //       const resp = await verifyOtpApi({ ...credentials, otp: Number(credentials?.otp) });
 //       console.log('reppp', resp); // Move this line inside the try block
 //       // alert('hh')
-      
+
 //       notyf.success('Otp Verified');
 //       if(resp?.success){
 //         saveOtp(credentials?.otp)
 //         saveEmail(credentials?.email)
 //       //  alert("save email", credentials?.email)
 
-        
 //       }
-  
+
 //       dispatch({ type: VERIFY_OTP, payload: { ...credentials } });
-     
+
 //     } catch (error) {
 //       console.error('Error in verifyOtp:', error);
 //       dispatch({ type: API_ERROR, payload: error?.data?.errors });
@@ -191,34 +192,36 @@ export const verifyOtp = (credentials, navigateCallback) => {
   return async (dispatch) => {
     try {
       dispatch({ type: LOADING, payload: {} });
-      const resp = await verifyOtpApi({ ...credentials, otp: Number(credentials?.otp) });
-      notyf.success('Otp Verified');
+      const resp = await verifyOtpApi({
+        ...credentials,
+        otp: Number(credentials?.otp),
+      });
+      notyf.success("Otp Verified");
 
-     // console.log('resp?.data?.success', resp.data);
+      // console.log('resp?.data?.success', resp.data);
 
       if (resp?.data) {
-       // console.log(typeof navigateCallback, 'rrrr');
+        // console.log(typeof navigateCallback, 'rrrr');
         saveOtp(credentials?.otp);
         saveEmail(credentials?.email);
         // Call the navigate callback
         navigateCallback();
       } else {
         // Handle the case where OTP verification fails
-       // alert("Error in OTP verification:", resp?.message);
+        // alert("Error in OTP verification:", resp?.message);
         // You may want to display an error message to the user
         // or take appropriate action based on the backend message
       }
 
-    //  dispatch({ type: VERIFY_OTP, payload: { ...credentials } });
+      //  dispatch({ type: VERIFY_OTP, payload: { ...credentials } });
     } catch (error) {
-      console.error('Error in verifyOtp:', error);
+      console.error("Error in verifyOtp:", error);
       dispatch({ type: API_ERROR, payload: error?.data?.errors });
       // Handle other errors, if any
       // For example, you can display a generic error message to the user
     }
   };
 };
-
 
 // export const verifyOtp = credentials => {
 //   return async dispatch => {
@@ -258,55 +261,48 @@ export const verifyOtp = (credentials, navigateCallback) => {
 //   };
 // };
 
-
-
-
-
-
-
 export const resetPassword = (credentials, cb) => {
-  return async dispatch => {
+  return async (dispatch) => {
     try {
       dispatch({ type: LOADING, payload: {} });
-      const resp = await resetPasswordApi(credentials);
-      //  toastr.success(resp.message)
-      notyf.success(`${resp?.message}! `);
+      await resetPasswordApi(credentials);
+      notyf.success("Password Updated");
 
       dispatch({ type: CLEAR_LOADING, payload: {} });
       // toast.success('Password Changed Successfully');
-      if (typeof cb === 'function') cb();
+      if (typeof cb === "function") cb();
     } catch (error) {
-    // alert("error")
-      // console.print('Something went wrong in login', error);
+      notifyWarning.success("Something Invalid");
+
       dispatch({ type: API_ERROR, payload: error?.data?.errors });
-    //  notyf.success(`${resp?.message}! `);
+      //  notyf.success(`${resp?.message}! `);
     }
   };
 };
 
 export const forgetPassword = (credentials, cb) => {
- // alert('1')
-  return async dispatch => {
+  // alert('1')
+  return async (dispatch) => {
     try {
       dispatch({ type: LOADING, payload: {} });
       const resp = await forgetPasswordApi(credentials);
       // alert('2')
       // toastr.success(resp?.message);
-      console.log('resppposs' , resp?.data)
+      console.log("resppposs", resp?.data);
       notyf.success(`${resp?.message}! `);
-      dispatch({ type: CLEAR_LOADING, payload: {} });
-      if (typeof cb === 'function') cb();
+      //  dispatch({ type: CLEAR_LOADING, payload: {} });
+      //  if (typeof cb === 'function') cb();
     } catch (error) {
-    //  alert("error")
-     // alert('')
+      //  alert("error")
+      // alert('')
       // handleErrors(error?.data?.message);
-    //  dispatch({ type: API_ERROR, payload: error?.data?.errors });
+      //  dispatch({ type: API_ERROR, payload: error?.data?.errors });
     }
   };
 };
 
-export const updateProfile = formData => {
-  return async dispatch => {
+export const updateProfile = (formData) => {
+  return async (dispatch) => {
     try {
       dispatch({ type: LOADING, payload: {} });
       let response = await updateProfileApi(formData);
@@ -320,8 +316,8 @@ export const updateProfile = formData => {
   };
 };
 
-export const updatePassword = data => {
-  return async dispatch => {
+export const updatePassword = (data) => {
+  return async (dispatch) => {
     try {
       dispatch({ type: LOADING, payload: {} });
       await updatePasswordApi(data);
@@ -337,13 +333,13 @@ export const updatePassword = data => {
 };
 
 export const deleteProfilePic = (data, cb) => {
-  return async dispatch => {
+  return async (dispatch) => {
     try {
       dispatch({ type: DELETING_PROFILE_PIC, payload: {} });
       let response = await deleteProfilePicApi(data);
       dispatch({ type: UPDATE_PROFILE, payload: response });
       saveUser(response);
-      if (typeof cb === 'function') cb();
+      if (typeof cb === "function") cb();
       // toast.success('Profile Picture removed');
     } catch (error) {
       // console.print('Something went wrong in updateProfile', error);

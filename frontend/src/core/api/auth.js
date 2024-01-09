@@ -94,10 +94,10 @@ export function logoutApi() {
   });
 }
 
-export function verifyEmailApi(email) {
+export function verifyEmailApi() {
   return new Promise((resolve, reject) => {
     ApiService.post("verify-email", {
-      email,
+      // email,
       // formData,
     })
       .then((response) => {
@@ -175,7 +175,7 @@ export function resetPasswordApi(credentials) {
   // Extract required data from credentials or use it directly based on your API requirements
   const { email, otp, password,password_confirmation } = credentials;
   // You may need to adjust the API endpoint and payload based on your server-side implementation
-  const apiEndpoint = 'reset-password'; // Update this with your actual endpoint
+  const apiEndpoint = '/reset-password'; // Update this with your actual endpoint
 
   return new Promise(async (resolve, reject) => {
 

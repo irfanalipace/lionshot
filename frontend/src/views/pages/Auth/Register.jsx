@@ -370,8 +370,8 @@ export default function Register() {
 
 												type='submit'
 												sx={{ textTransform: 'capitalize',background:'#2196F3' }}
-											//	disabled={accountFormik.isSubmitting}
-											//	loading={accountFormik.isSubmitting}
+												//disabled={accountFormik.isSubmitting}
+												//loading={accountFormik.isSubmitting}
 											>
 												{
 													loading ? (
