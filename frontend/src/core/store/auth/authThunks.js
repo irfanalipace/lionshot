@@ -66,13 +66,14 @@ export const login = (credentials) => {
       // toastr.success(response?.message);
       notyf.success("Login successful ");
 
-      // dispatch({ type: CLEAR_API_ERRORS, payload: {} });
+      dispatch({ type: CLEAR_API_ERRORS, payload: {} });
 
       // return response;
     } catch (error) {
-      alert("Invalid Cridential");
-      //  dispatch({ type: API_ERROR, payload: error });
-      // if(!error?.data?.message?.credentials) notyf.error(error?.data?.message || 'Something went wrong');
+      // alert("Invalid Cridential");
+      dispatch({ type: API_ERROR, payload: error });
+      if (!error?.data?.message?.credentials)
+        notyf.error(error?.data?.message || "Something went wrong");
     }
   };
 };
