@@ -108,7 +108,7 @@ const ApiService = {
 
           if (error?.response?.status === 401) {
             destroyToken();
-            window.location.reload();
+            // window.location.reload();
           }
 
           if (!ACCEPTED_ERROR_CODES.includes(error?.response?.status)) {
@@ -143,7 +143,7 @@ const ApiService = {
           // console.print('error status: ', error?.response?.status);
           if (error?.response?.status === 401) {
             destroyToken();
-            window.location.reload();
+            // window.location.reload();
           }
           if (!ACCEPTED_ERROR_CODES.includes(error?.response?.status)) {
             // notyf.error('Something Went Wrong');
@@ -174,7 +174,7 @@ const ApiService = {
         .catch((error, status) => {
           if (error?.response?.status === 401) {
             destroyToken();
-            window.location.reload();
+            // window.location.reload();
           }
           if (ACCEPTED_ERROR_CODES.includes(error?.response?.status)) {
             // notyf.error('Something Went Wrong');
@@ -205,7 +205,7 @@ const ApiService = {
         .catch(error => {
           if (error?.response?.status === 401) {
             destroyToken();
-            window.location.reload();
+            // window.location.reload();
           }
           if (ACCEPTED_ERROR_CODES.includes(error?.response?.status)) {
             // notyf.error('Something Went Wrong');

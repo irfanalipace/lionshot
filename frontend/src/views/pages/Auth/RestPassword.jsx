@@ -28,6 +28,7 @@ import {verifyOtp, forgetPassword } from "../../../core/store/auth/authThunks";
 import LoadingButton from "@mui/lab/LoadingButton";
 import AuthLogoContainer from "./Components/AuthLogoContainer/AuthLogoContainer";
 import { CLEAR_API_ERRORS } from "../../../core/store/auth/authSlice";
+import { values } from "lodash";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -112,6 +113,7 @@ export default function ResetPassword() {
   };
 
   const handleSendCode = async () => {
+  //  alert(values,"DDDD")
     try {
       await dispatch(forgetPassword(formik.values));
      

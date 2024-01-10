@@ -53,7 +53,6 @@ export const  login = (credentials) => {
     try {
       dispatch({ type: LOADING, payload: {} });
       const response = await loginApi(credentials);
-
       const token = response?.data?.accessToken;
       saveToken(token);
       saveUser(response?.data);
@@ -284,15 +283,15 @@ export const forgetPassword = (credentials, cb) => {
     try {
       dispatch({ type: LOADING, payload: {} });
       const resp = await forgetPasswordApi(credentials);
-      console.log("resppposs", resp?.data);
+      alert("resppposs", resp?.data);
       notyf.success(`${resp?.message}! `);
-      dispatch({ type: CLEAR_LOADING, payload: {} });
-      if (typeof cb === "function") cb();
+      // dispatch({ type: CLEAR_LOADING, payload: {} });
+      // if (typeof cb === "function") cb();
     } catch (error) {
       //  alert("error")
       // alert('')
       handleErrors(error?.data?.message);
-      dispatch({ type: API_ERROR, payload: error?.data?.errors });
+    //  dispatch({ type: API_ERROR, payload: error?.data?.errors });
     }
   };
 };

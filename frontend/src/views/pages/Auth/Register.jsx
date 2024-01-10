@@ -75,7 +75,7 @@ export default function Register() {
 	const handleAccountSubmit = async (values, { setSubmitting }) => {
 		try {
 		  setSubmitting(true);
-	
+		//	setLoading(true)
 		  const accountData = {
 			first_name: values.first_name,
 			last_name: values.last_name,
@@ -100,6 +100,7 @@ export default function Register() {
 		  console.log('reg error', error);
 		} finally {
 		  setSubmitting(false);
+		 // setLoading(false);
 		}
 	  };
 	
@@ -370,8 +371,8 @@ export default function Register() {
 
 												type='submit'
 												sx={{ textTransform: 'capitalize',background:'#2196F3' }}
-												//disabled={accountFormik.isSubmitting}
-												//loading={accountFormik.isSubmitting}
+												disabled={accountFormik.isSubmitting}
+												loading={accountFormik.isSubmitting}
 											>
 												{
 													loading ? (

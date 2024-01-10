@@ -45,6 +45,7 @@ import { useTheme } from '@mui/material/styles';
 import OverlayLoader from '../../Components/OverlayLoader/OverlayLoader';
 import { HighlightOffRounded } from '@mui/icons-material';
 import ConfirmDialog from '../../Components/ConfirmDialog/ConfirmDialog';
+import { CorApi } from '../../../core/api/correports';
 
 const ViewPurchase = ({ id, refreshList }) => {
   const navigate = useNavigate();
@@ -84,12 +85,12 @@ const ViewPurchase = ({ id, refreshList }) => {
   const fetchingSinglePurchase = async () => {
     try {
       setVwLoader(true);
-      const resp = await purchaseOrdersSingleApi(purchaseID);
+      const resp = await CorApi(purchaseID);
       setPurchaseOrdersData(resp);
       setBills(resp?.bill);
       setContacts(resp?.vendor?.vendor_contacts);
     } catch (error) {
-      navigate('/purchase-orders');
+      navigate('/cor');
     } finally {
       setVwLoader(false);
     }
@@ -193,7 +194,7 @@ const ViewPurchase = ({ id, refreshList }) => {
     try {
       if (purchaseID) {
         const res = await singleDeletePurchaseOrdersApi(purchaseID);
-        navigate('/purchase-orders');
+        navigate('/cor');
         refreshList();
         notyf.success('Status Successfully changed to Void');
       }
@@ -252,7 +253,7 @@ const ViewPurchase = ({ id, refreshList }) => {
                     </MUIButton>
             <IconButton
               onClick={() => {
-                navigate('/purchase-orders');
+                navigate('/cor');
               }}>
               <CloseIcon />
             </IconButton>
