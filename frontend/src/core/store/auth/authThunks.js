@@ -48,7 +48,7 @@ import {
 import ApiService from "../../services/apiService";
 import { handleErrors } from "../../utils/helpers";
 
-export const  login = (credentials) => {
+export const login = (credentials) => {
   return async (dispatch) => {
     try {
       dispatch({ type: LOADING, payload: {} });
@@ -275,15 +275,15 @@ export const resetPassword = (credentials, cb) => {
       //  notyf.success(`${resp?.message}! `);
     }
   };
-};  
+};
 
 export const forgetPassword = (credentials, cb) => {
-  // alert('1')
+  //alert(credentials,'@@@')
   return async (dispatch) => {
     try {
       dispatch({ type: LOADING, payload: {} });
       const resp = await forgetPasswordApi(credentials);
-      alert("resppposs", resp?.data);
+    ///  alert("resppposs", resp?.data);
       notyf.success(`${resp?.message}! `);
       // dispatch({ type: CLEAR_LOADING, payload: {} });
       // if (typeof cb === "function") cb();
@@ -291,7 +291,7 @@ export const forgetPassword = (credentials, cb) => {
       //  alert("error")
       // alert('')
       handleErrors(error?.data?.message);
-    //  dispatch({ type: API_ERROR, payload: error?.data?.errors });
+      //  dispatch({ type: API_ERROR, payload: error?.data?.errors });
     }
   };
 };

@@ -113,9 +113,9 @@ export default function ResetPassword() {
   };
 
   const handleSendCode = async () => {
-  //  alert(values,"DDDD")
+ // alert(formik.values.email,'hello')
     try {
-      await dispatch(forgetPassword(formik.values));
+      await dispatch(forgetPassword(formik.values.email));
      
       // You can show a success message or handle the UI accordingly
     } catch (error) {

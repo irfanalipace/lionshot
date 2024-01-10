@@ -54,19 +54,19 @@ const authSlice = createSlice({
       state.apiError = null;
       state.user = action.payload;
     },
-    VERIFY_EMAIL: (state) => {
-      state.isLoading = false;
-      // state.currentPage = parseInt(state.currentPage) + 1;
-      state.apiError = null;
-    },
-    VERIFY_OTP: (state, action) => {
-      state.isAuthenticated = true;
-      state.user = { ...action.payload };
-      state.user.profile_pic = action.payload.profile_pic;
-      state.isLoading = false;
-      // state.currentPage = 1;
-      state.apiError = null;
-    },
+    // VERIFY_EMAIL: (state) => {
+    //   state.isLoading = false;
+    //   // state.currentPage = parseInt(state.currentPage) + 1;
+    //   state.apiError = null;
+    // },
+    // VERIFY_OTP: (state, action) => {
+    //   state.isAuthenticated = true;
+    //   state.user = { ...action.payload };
+    //   state.user.profile_pic = action.payload.profile_pic;
+    //   state.isLoading = false;
+    //   // state.currentPage = 1;
+    //   state.apiError = null;
+    // },
     UPDATE_PROFILE: (state, action) => {
       state.user = { ...action.payload };
       state.isLoading = false;

@@ -134,7 +134,7 @@ export function verifyOtpApi(data) {
 export function forgetPasswordApi(email) {
   return new Promise((resolve, reject) => {
     ApiService.post("/forgot-password", {
-      ...email,
+    email,
     })
       .then((response) => {
         resolve(response);
