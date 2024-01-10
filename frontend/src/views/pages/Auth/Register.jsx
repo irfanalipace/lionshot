@@ -74,9 +74,10 @@ export default function Register() {
   };
   const handleAccountSubmit = async (values, { setSubmitting }) => {
     try {
+      setLoading(true);
       setSubmitting(true);
-    //  setLoading(true);
-	//  alert(loading,'try')
+    // 
+	 // alert(loading,'try')
       const accountData = {
         first_name: values.first_name,
         last_name: values.last_name,
@@ -95,15 +96,16 @@ export default function Register() {
         }
       }
 
-      dispatch(register(accountData, cb));
+  await dispatch(register(accountData, cb));
+  setLoading(false);
     } catch (error) {
       //	alert("error")
     //  setLoading(false);
       console.log("reg error", error);
     } finally {
-      setSubmitting(false);
+     
 	//  alert(loading,'finally')
-    //  setLoading(false);
+     setLoading(false);
     }
   };
 

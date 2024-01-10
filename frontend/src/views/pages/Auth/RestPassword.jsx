@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
+import CircularProgress from "@mui/material/CircularProgress";
 import {
   Box,
   Button,
@@ -41,7 +42,8 @@ export default function ResetPassword() {
   const navigate = useNavigate();
   const apiError = useSelector((state) => state?.auth?.apiError);
   const dispatch = useDispatch();
-
+  const [loading, setLoading]=useState(false);
+  const [Subloading, setSubLoading]=useState(false);
   // function cb() {
   //   formik.resetForm();
   //   // navigate("/login");
@@ -54,13 +56,18 @@ export default function ResetPassword() {
     },
     validationSchema: validationSchema,
     onSubmit: async (values, { setSubmitting }) => {
+    //  alert("values")
       try {
+        alert()
         setSubmitting(true);
-        await dispatch(forgetPassword(values));
+        setLoading(true)
+    //    await dispatch(forgetPassword(values));
+        setLoading(false)
       } catch (error) {
         console.log("err", error);
       } finally {
         setSubmitting(false);
+        setLoading(false)
       }
     },
   });
@@ -113,15 +120,17 @@ export default function ResetPassword() {
   };
 
   const handleSendCode = async () => {
- // alert(formik.values.email,'hello')
     try {
-      await dispatch(forgetPassword(formik.values.email));
+      setLoading(true);
+       await dispatch(forgetPassword(formik.values.email));
+      setLoading(false);
      
-      // You can show a success message or handle the UI accordingly
     } catch (error) {
       console.log("Error sending code:", error);
+      setLoading(false); // Ensure loading is stopped in case of an error
     }
   };
+  
  //  console.log('formikk' , formik.values.email)
   //  const handleContinue = async () => {
   //   try {
@@ -142,13 +151,16 @@ export default function ResetPassword() {
 const handleContinue = async () => {
   
   try {
+    setSubLoading(true)
     await dispatch(
       verifyOtp(
         { email: formik.values.email, otp: Number(otp.join("")) },
         () => navigate("/forgot_password") // Pass a callback to navigate
       )
     );
+    setSubLoading(false);
   } catch (error) {
+    setSubLoading(false);
     console.log("Error verifying OTP:", error);
     // Handle other errors, if any
     // For example, you can display a generic error message to the user
@@ -246,16 +258,23 @@ const handleContinue = async () => {
                         ))}
                       </Box>
                       <Box>
-                      <Button
+                      <LoadingButton
                         onClick={handleSendCode}
                         sx={{
                           textDecoration: "underline",
                           paddingTop: "20px",
                         }}
-                        type="button"
+                        type="submit"
+                        disabled={loading}
+                        loading={loading}
                       >
-                        Send Code
-                      </Button>
+                         {loading ? (
+                          <CircularProgress size={24} color="inherit" />
+                        ) : (
+                          "Send Code"
+                        )}
+                       {/* Send Code */}
+                      </LoadingButton>
                       </Box>
                     </Box>
                   </Grid>
@@ -268,9 +287,15 @@ const handleContinue = async () => {
                       type="button"
                       variant="contained"
                       onClick={handleContinue}
+                      disabled={Subloading}
+                      loading={Subloading}
                       fullWidth
                     >
-                      Continue
+                        {Subloading ? (
+                          <CircularProgress size={24} color="inherit" />
+                        ) : (
+                          "Continue"
+                        )}
                     </LoadingButton>
                   </Grid>
                 </form>

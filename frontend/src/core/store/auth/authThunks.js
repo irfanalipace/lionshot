@@ -278,18 +278,15 @@ export const resetPassword = (credentials, cb) => {
 };
 
 export const forgetPassword = (credentials, cb) => {
-  //alert(credentials,'@@@')
   return async (dispatch) => {
     try {
       dispatch({ type: LOADING, payload: {} });
       const resp = await forgetPasswordApi(credentials);
-    ///  alert("resppposs", resp?.data);
       notyf.success(`${resp?.message}! `);
       // dispatch({ type: CLEAR_LOADING, payload: {} });
       // if (typeof cb === "function") cb();
     } catch (error) {
-      //  alert("error")
-      // alert('')
+
       handleErrors(error?.data?.message);
       //  dispatch({ type: API_ERROR, payload: error?.data?.errors });
     }
