@@ -76,7 +76,7 @@ export default function Register() {
     try {
       setSubmitting(true);
     //  setLoading(true);
-	  alert(loading,'try')
+	//  alert(loading,'try')
       const accountData = {
         first_name: values.first_name,
         last_name: values.last_name,
