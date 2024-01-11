@@ -58,7 +58,7 @@ export default function ResetPassword() {
     onSubmit: async (values, { setSubmitting }) => {
     //  alert("values")
       try {
-        alert()
+      
         setSubmitting(true);
         setLoading(true)
     //    await dispatch(forgetPassword(values));
@@ -72,7 +72,7 @@ export default function ResetPassword() {
     },
   });
 
-  // api error set for field
+  
   const updateError = {};
   useEffect(() => {
     if (apiError) {
@@ -83,7 +83,7 @@ export default function ResetPassword() {
     formik.setErrors(updateError);
   }, [apiError]);
 
-  //  clear error when components unmount
+  
   useEffect(() => {
     return () => {
       dispatch(CLEAR_API_ERRORS());
