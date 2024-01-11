@@ -178,7 +178,7 @@ class AuthController extends BaseController
                 //Dispatching an event for the mail
                 ForgotPassword::dispatch($user, $otp);
 
-                return $this->sendResponse(null, 'A five digit OTP has been sent to the users email');
+                return $this->sendResponse(null, 'A six digit OTP has been sent to the users email');
             }
 
         } catch (\Throwable $th) {
