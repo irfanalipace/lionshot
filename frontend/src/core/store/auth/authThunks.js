@@ -215,7 +215,7 @@ export const verifyOtp = (credentials, navigateCallback) => {
     } catch (error) {
       //  alert("ss")
       //  console.error("Error in verifyOtp:", error);
-      notifyWarning.success("Something Invalid");
+      notifyWarning.success(`${error?.data?.message}! `);
     }
   };
 };
@@ -286,7 +286,7 @@ export const forgetPassword = (credentials, cb) => {
       // dispatch({ type: CLEAR_LOADING, payload: {} });
       // if (typeof cb === "function") cb();
     } catch (error) {
-
+      notifyWarning.success(`${error?.data?.message}! `);
       handleErrors(error?.data?.message);
       //  dispatch({ type: API_ERROR, payload: error?.data?.errors });
     }
