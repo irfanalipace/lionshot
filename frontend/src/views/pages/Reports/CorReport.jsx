@@ -20,10 +20,7 @@ import DataTable from '../../Components/DataTable/DataTable';
 import { Dropdown } from '@mui/base/Dropdown';
 import { MenuButton } from '@mui/base/MenuButton';
 import { Menu as DropDown } from '@mui/base/Menu';
-import PrintIcon from '@mui/icons-material/Print';
-
-
- 
+import PrintIcon from '@mui/icons-material/Print'; 
 import {
   bulkDeletePurchaseOrdersApi,
   exportPurchaseOrdersApi,
@@ -324,36 +321,14 @@ const CorReport = () => {
                         border: 'none'
                       }}>
                       <Typography
-                        noWrap
-                        variant='h6'
-                        className='TextCapitalize'>
-                        Certifications of Recycling
-                        {/* <ArrowDropDown sx={{ margin: '0 -5px -5px 0' }} /> */}
-                      </Typography>
+                          noWrap
+                          variant='h6'
+                          className='TextCapitalize'>
+                         Certifications of Recycling
+                    </Typography>
+                   
                     </MenuButton>
-                    {/* <Menu slots={{ listbox: StyledListbox }}>
-											<StyledMenuItem> Active Customers</StyledMenuItem>
-											<StyledMenuItem> CRM Customers</StyledMenuItem>
-											<StyledMenuItem> Duplicate Customers</StyledMenuItem>
-											<StyledMenuItem> Inactive Customers</StyledMenuItem>
-											<StyledMenuItem> Customer Portal Enabled</StyledMenuItem>
-											<StyledMenuItem> Customer Portal Disabled</StyledMenuItem>
-											<StyledMenuItem> Overdue Customers</StyledMenuItem>
-											<StyledMenuItem> Unpaid Customers</StyledMenuItem>
-											<StyledMenuItem>
-												Associate with Payment Options
-											</StyledMenuItem>
-											<StyledMenuItem
-												sx={{ color: window.themeColors.primary }}
-												onClick={e => {
-													e.stopPropagation();
-													navigate('/customer/new');
-												}}
-											>
-												<Add />
-												New Customer View
-											</StyledMenuItem>
-										</Menu> */}
+                 
                   </Dropdown>
                 )}
               </Grid>
