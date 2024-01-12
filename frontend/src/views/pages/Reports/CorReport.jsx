@@ -110,7 +110,7 @@ const CorReport = () => {
                 </Typography> */}
                 <Grid container>
                 <Typography variant='subtitle2'>
-                   {wholedata?.purchase_order_number|| '--'}
+                   {wholedata?.invoice|| '--'}
                 </Typography>
                 </Grid>
               </Grid>
@@ -131,7 +131,7 @@ const CorReport = () => {
   const [viewPurchase, setPurchaseVw] = useState(false);
   const [id, setId] = useState(null);
   const hash = window.location.hash;
-
+  const [dateBtn, setDateBtn]=useState(false)
   const [refresh, setRefresh] = useState(0);
   const [openImport, setOpenImport] = useState(false);
   const [openExport, setOpenExport] = useState(false);
@@ -360,7 +360,7 @@ const CorReport = () => {
               <Grid item xs={4} sx={{ textAlign: 'right' }}>
                 {selectedRows.length > 0 ? (
                   <IconButton onClick={() => setRefresh(prev => prev + 1)}>
-                    <Close />
+                <Close />
                   </IconButton>
                 ) : (
                   <Box>
@@ -415,7 +415,8 @@ const CorReport = () => {
             </Grid>
           </HeaderPaper>
           <Paper>
-            <DateRangeHeader />
+
+            <DateRangeHeader dateBtn={dateBtn} setDateBtn={setDateBtn}/>
           </Paper>
           <DataTableContainer>
           

@@ -211,7 +211,8 @@ const ViewPurchase = ({ id, refreshList }) => {
           {/* view header left  */}
           <Grid sm={6} sx={{ display: 'flex', alignItems: 'center' }}>
             <Typography variant='h6'>
-              {purchaseOrderData?.purchase_order_number}
+              {/* {purchaseOrderData?.invoice} */}
+          Inovice# A12DE2
             </Typography>
           </Grid>
           {/* view header right  */}
@@ -244,7 +245,7 @@ const ViewPurchase = ({ id, refreshList }) => {
               setFiles={setFiles}
             /> */}
                 <MUIButton
-                     // onClick={() => navigate('/purchase-orders/new')}
+                    onClick={() => navigate('/cor-pdf')}
                       variant='contained'
                       sx={{ minWidth: '0', padding: '5px 7px' }}>
                       {/* <Add fontSize='small' />

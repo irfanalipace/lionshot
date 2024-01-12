@@ -273,6 +273,7 @@ const MainHeader = lazy(() =>
 	import('../../views/Components/Headers/MainHeader')
 );
 import HomeDashboardLineShort from '../../views/pages/Dashboard/HomeDashboardLineShort.jsx';
+import CorPdf from '../../views/pages/Reports/CorPdf.jsx';
 
 export const routes = [
 	/* auth routes */
@@ -919,6 +920,19 @@ export const routes = [
 			<ProtectedRoute>
 				<PageWrapper isSidebar={true}>
 					<CorReport />
+				</PageWrapper>
+			</ProtectedRoute>
+		),
+		header: <MainHeader />,
+		footer: <MainFooter />,
+		aside: <AdminSidebar />,
+	},
+	{
+		path: '/cor-pdf',
+		page: (
+			<ProtectedRoute>
+				<PageWrapper isSidebar={true}>
+					<CorPdf />
 				</PageWrapper>
 			</ProtectedRoute>
 		),
