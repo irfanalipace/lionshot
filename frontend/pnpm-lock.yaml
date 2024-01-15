@@ -44,6 +44,9 @@ dependencies:
   copyfiles:
     specifier: ^2.4.1
     version: 2.4.1
+  date-fns:
+    specifier: ^3.2.0
+    version: 3.2.0
   file-saver:
     specifier: ^2.0.5
     version: 2.0.5
@@ -2256,6 +2259,10 @@ packages:
     engines: {node: '>=0.10'}
     dependencies:
       assert-plus: 1.0.0
+    dev: false
+
+  /date-fns@3.2.0:
+    resolution: {integrity: sha512-E4KWKavANzeuusPi0jUjpuI22SURAznGkx7eZV+4i6x2A+IZxAMcajgkvuDAU1bg40+xuhW1zRdVIIM/4khuIg==}
     dev: false
 
   /debug@4.3.4:

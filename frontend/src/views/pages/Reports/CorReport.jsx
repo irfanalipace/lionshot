@@ -28,7 +28,7 @@ import {
   getAllPurchaseordersApi,
   singleDeletePurchaseOrdersApi
 } from '../../../core/api/purchase';
-import { CorApi } from '../../../core/api/correports';
+import { getAllInvoiceDateCorApi } from '../../../core/api/correports';
 import lazy from 'components/LazyLoadWithRetry/LazyLoadWithRetry.jsx';
 import {
   StatusColor,
@@ -64,7 +64,7 @@ const CorReport = () => {
   const intialColumns = [
    
     {
-      accessorKey: 'invoice',
+      accessorKey: 'invoiceNumber',
       header: 'Invoice',
       Cell: ({ renderedCellValue, row }) => (
         <Typography variant='body2' color='primary'>
@@ -73,7 +73,7 @@ const CorReport = () => {
         
       )
     },
-    
+
     {
       accessorKey: 'actions',
       header: 'Actions',
@@ -137,6 +137,8 @@ const CorReport = () => {
   const [dialogProps, setDialogProps] = useState({});
   const navigate = useNavigate();
 
+  const [searchPram, setSearchPram] = useState('');
+ 
   //   view purchase
   useEffect(() => {
     const id = extractNumberFromHash(hash);
@@ -192,7 +194,7 @@ const CorReport = () => {
   const handleDelete = async (e, id) => {
     e.stopPropagation();
     try {
-      await singleDeletePurchaseOrdersApi(id);
+      await getAllInvoiceDateCorApi(id);
       setRefresh(prev => prev + 1);
       notyf.success('Purchase orders deleted successfully');
     } catch (error) {
@@ -348,43 +350,7 @@ const CorReport = () => {
                       {!viewPurchase && 'New'} */}
                    <PrintIcon />  Print 
                     </MUIButton>
-                    {/* <MUIButton
-                      onClick={() => setOpenExport(true)}
-                      variant='outlined'
-                      sx={{
-                        minWidth: '0',
-                        padding: '5px 7px',
-                        marginLeft: '5px'
-                      }}>
-                      <DownloadOutlined />
-                      {viewPurchase ? '' : 'Export'}
-                    </MUIButton> */}
-                    {/* <IconButton
-											component={'span'}
-											sx={{ padding: '0', marginLeft: '10px' }}
-										>
-											<Dropdown>
-												<HeaderMenuButton
-													onClick={e => e.stopPropagation()}
-													sx={{ padding: '7px' }}
-												>
-													<MoreHoriz fontSize='small' />
-												</HeaderMenuButton>
-												<Menu slots={{ listbox: StyledListbox }}>
-													<StyledMenuItem onClick={() => setOpenImport(true)}>
-														<SaveAlt /> Import Purchase Orders
-													</StyledMenuItem>
-													<StyledMenuItem onClick={() => setOpenExport(true)}>
-														<UploadFile /> Export Purchase Orders
-													</StyledMenuItem>
-													<StyledMenuItem
-														onClick={() => setRefresh(prev => prev + 1)}
-													>
-														<Cached /> Refresh List
-													</StyledMenuItem>
-												</Menu>
-											</Dropdown>
-										</IconButton> */}
+               
                   </Box>
                 )}
               </Grid>
@@ -392,17 +358,18 @@ const CorReport = () => {
           </HeaderPaper>
           <Paper>
 
-            <DateRangeHeader dateBtn={dateBtn} setDateBtn={setDateBtn}/>
+            <DateRangeHeader dateBtn={dateBtn} setDateBtn={setDateBtn} setSearchPram={setSearchPram}/>
           </Paper>
           <DataTableContainer>
           
             <DataTable
               columns={columns}
-              api={CorApi}
+              api={getAllInvoiceDateCorApi}
               setSelectedRows={setSelectedRows}
               onRowClick={handleRowClick}
               refresh={refresh}
               enableRowSelection={isRowSelectable}
+              extraParams={searchPram}
               collapsed={viewPurchase}
             />
           </DataTableContainer>

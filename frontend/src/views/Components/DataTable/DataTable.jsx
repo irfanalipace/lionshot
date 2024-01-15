@@ -7,6 +7,7 @@ import SkeletonSidebar from '../Skeleton/SkeletonSidebar';
 import DataTableSkeleton from '../Skeleton/DataTableSkeleton';
 
 const DataTable = props => {
+  console.log(props,'vvvv')
   return (
     <Suspense
       fallback={props.collapsed ? <SkeletonSidebar /> : <DataTableSkeleton />}>

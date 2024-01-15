@@ -14,10 +14,6 @@ import { MaterialReactTable } from 'material-react-table';
  * The Key for search string in payload will be 'search' or 'name'
  */
 
-/*
- * NOTE:
- * Please put extraParams object prop in useRef in parent to prevent re rendering
- */
 const MReactTable = ({
   api, // Function that fetches data from an API .
   extraParams, // Function that fetches data from an API (This object contains query params other than pagination and searching that needs to be passed to the backend api).
@@ -102,6 +98,7 @@ const MReactTable = ({
     try {
       const response = await api(params);
       let responseData = response?.data;
+      console.log(response?.data,'KKKKKKKKKKKKKKKKKKKKKKKKK')
       setData(responseData);
       setRowCount(
         responseData?.total || responseData[activeDataKey]?.total || 0
@@ -279,7 +276,7 @@ const MReactTable = ({
         rowSelection
       }}
       muiSearchTextFieldProps={{
-        sx: { '& .MuiInputBase-input': { height: '15px' } },
+        sx: { '& .MuiInputBase-input': { height: '5px' } },
         variant: 'outlined'
       }}
       muiTableBodyRowProps={({ row }) => ({
@@ -300,6 +297,7 @@ const MReactTable = ({
           ? {
               color: 'error',
               children: globalFilter ? 'Data Not Found' : 'Error loading data'
+              
             }
           : undefined
       }

@@ -7,21 +7,22 @@ import { Close } from "@mui/icons-material";
 import { FilterList } from "@mui/icons-material";
 import { Search } from "@mui/icons-material";
 import MUIButton from "../Button/MUIButton";
+
 function DateRangeHeader({ setSearchPram, setDateBtn, dateBtn }) {
   const [formValues, setFormValues] = useState({
     dateFrom: "",
     dateTo: "",
   });
   useEffect(() => {
-    console.log("FormValues", formValues);
+   console.log("FormValues", formValues);
 
     try {
       // Set search parameters for the API call
       setSearchPram({
-        start_date: formValues.dateFrom,
-        end_date: formValues.dateTo,
+        fromDate: formValues.dateFrom,
+        toDate: formValues.dateTo,
       });
-      // setRefresh(prev => prev + 1);
+       setRefresh(prev => prev + 1);
     } catch (error) {
       if (error?.data?.errors && Object.keys(error?.data?.errors)?.length > 0)
         console.log(error?.data?.errors);
@@ -33,6 +34,7 @@ function DateRangeHeader({ setSearchPram, setDateBtn, dateBtn }) {
 
   // Handle changes in form fields
   const handleFormFieldChange = (fieldName, value) => {
+  
     setFormValues((prevValues) => ({
       ...prevValues,
       [fieldName]: value,
@@ -47,6 +49,26 @@ function DateRangeHeader({ setSearchPram, setDateBtn, dateBtn }) {
     setDateBtn(false);
   };
 
+
+  const handleSearchClick = () => {
+    // Validate the form fields if needed
+    // ...
+  
+    // Convert the date values to "MM/DD/YYYY" format
+    const formattedDateFrom = new Date(formValues.dateFrom).toLocaleDateString('en-US');
+    const formattedDateTo = new Date(formValues.dateTo).toLocaleDateString('en-US');
+    //alert(formattedDateFrom,'formattedDateFrom')
+    // Trigger the API call by updating setSearchPram
+    setSearchPram({
+    
+      fromDate: formattedDateFrom,
+      toDate: formattedDateTo,
+    });
+  
+    // Optionally, trigger a refresh if needed
+    setRefresh((prev) => prev + 1);
+  };
+  
   return (
     <>
       {/* <Typography variant='body1' fontWeight={500} ml={3} mb={3} pt={2}>
@@ -80,8 +102,10 @@ function DateRangeHeader({ setSearchPram, setDateBtn, dateBtn }) {
                 handleFormFieldChange("dateFrom", e.target.value)
               }
               inputProps={{
-                // max: formValues.dateTo,
-                max: formatDateToYYYYMMDD(new Date()),
+                 //max: formValues.dateTo,
+                // max: formatDateToYYYYMMDD(new Date()),
+                max: new Date(formValues.dateFrom).toLocaleDateString('en-US')
+                
               }}
               InputLabelProps={{
                 shrink: true,
@@ -96,8 +120,9 @@ function DateRangeHeader({ setSearchPram, setDateBtn, dateBtn }) {
               name="date_to"
               size="large"
               inputProps={{
-                min: formValues.dateFrom,
-                max: formatDateToYYYYMMDD(new Date()),
+               // min: formValues.dateFrom,
+                min: new Date(formValues.dateFrom).toLocaleDateString('en-US')
+                // max: formatDateToYYYYMMDD(new Date()),
               }}
               InputLabelProps={{
                 shrink: true,
@@ -109,7 +134,7 @@ function DateRangeHeader({ setSearchPram, setDateBtn, dateBtn }) {
             />
           </Box>
           <Box>
-            <MUIButton sx={{ padding: "15px", marginLeft: "9px" }}>
+            <MUIButton sx={{ padding: "15px", marginLeft: "9px" }} onClick={handleSearchClick}>
               <Typography>Search</Typography>
             </MUIButton>
           </Box>
