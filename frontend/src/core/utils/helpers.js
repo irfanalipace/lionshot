@@ -150,7 +150,7 @@ export function avatarName(user) {
   }
 }
 
-export function formatDateToYYYYMMDD(timestamp) {
+export function formatDateToDDMMYYYY(timestamp) {
   if (timestamp) {
     const date = new Date(timestamp);
     if (timestamp?.toString()?.endsWith('Z')) {

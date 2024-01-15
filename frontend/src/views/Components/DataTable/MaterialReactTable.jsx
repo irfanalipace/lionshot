@@ -97,8 +97,8 @@ const MReactTable = ({
     };
     try {
       const response = await api(params);
-      let responseData = response?.data;
-      console.log(response?.data,'KKKKKKKKKKKKKKKKKKKKKKKKK')
+      let responseData = response;
+      console.log(response,'KKKKKKKKKKKKKKKKKKKKKKKKK')
       setData(responseData);
       setRowCount(
         responseData?.total || responseData[activeDataKey]?.total || 0
@@ -228,14 +228,16 @@ const MReactTable = ({
     window.scrollTo(0, 0);
     setPagination(args);
   };
+  
   return (
     <MaterialReactTable
       columns={columns}
+     
       data={
         activeDataKey
-          ? data[activeDataKey]?.data
+          ? data[activeDataKey]
           : typeof api === 'function'
-          ? data?.data
+          ? data
           : rest.data
       }
       enableRowSelection={

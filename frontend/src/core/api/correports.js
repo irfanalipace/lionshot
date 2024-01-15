@@ -1,9 +1,9 @@
 
 import ApiService from "../services/apiService";
 
-export function getAllInvoiceDateCorApi(params) {
+export function getAllInvoiceDateCorApi(params , page=1) {
   return new Promise((resolve, reject) => {
-    ApiService.get('/get-invoice-by-date-range', null, params)
+    ApiService.get('/get-invoice-by-date-range', null, {...params , page})
       .then(response => {
       
         resolve(response);

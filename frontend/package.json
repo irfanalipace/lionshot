@@ -33,6 +33,7 @@
 		"jspdf-react": "^1.0.11",
 		"lodash": "^4.17.21",
 		"material-react-table": "^1.14.0",
+		"moment": "^2.30.1",
 		"mui-one-time-password-input": "^2.0.1",
 		"notyf": "^3.10.0",
 		"prop-types": "^15.8.1",
