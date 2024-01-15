@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
-use Auth;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\RegisterRequest;
@@ -84,6 +85,13 @@ class AuthController extends BaseController
                     'message' => 'Unauthorized'
                 ],401);
             }
+
+            $user = Auth::user();
+
+            if (empty($user->email_verified_at)) {
+                return $this->sendError(['credentials' => ['Email is not verified.']],);
+            }
+
 
             // increase attempts;
             // Throttle wagera;
@@ -300,9 +308,11 @@ class AuthController extends BaseController
                 $user->markEmailAsVerified();
             }
 
+            event(new Verified($user));
+
             return $this->sendResponse($user->hasVerifiedEmail(), 'User has been verified successfully');
         } catch (\Throwable $th) {
-         return $this->sendError($th->getMessage(), null, 'Please check stacktrace');
+            return $this->sendError($th->getMessage(), null);
         }
     }
 
