@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\GetCustomerRequest;
 use App\Http\Requests\GetInvoiceByDateRange;
 use App\Http\Requests\GetInvoiceById;
 use GuzzleHttp\Client;
@@ -140,7 +141,32 @@ class RecyclingController extends BaseController
         }
     }
 
+    public function getCustomers(GetCustomerRequest $request)
+    {
+        try{
 
+            $client = new Client();
+            $headers = [
+                'Authorization' => 'Bearer ' . $this->access_token,
+                'Cookie' => '_abck=B55A2E2B82A1BC7FC776BCCD988FFA99~-1~YAAQVfV0aCQn/WSMAQAAXBOSCwupmB1SAtiesO4EY4Y+5mKq/XRDOemJVn9RS5N/t6V0drZX/1+wDgxBkAo9cfz13hNty2ipm/U5DDRSuWTeDWo62HqMZhsAH2wyZRxeQX0taDdSeXeZcPmyC88sd+6T6J6AVkolln+7eVHicuHNjAyUR1h/JOjdDVqd/5HbrxJfUrWmPcRDEQwfoCruUdFMHshMGeOUNbn9LVX4TLf6AyODH/+ZZLLl7Kyy6UvvfVX1X41mHvDJibQLm/hfBexwBN8AIglOo+vdd3lmJy/6xYGSXMI3Tz51p0FJ9lx5l9YraUdhkkpOOGZ+kcuWkt7UVVuGhUhMaUXZfOGCHT7Q3YIVFJJO0Ool8g==~-1~-1~1705299690; bm_sz=B876C6978A1F7EFB936FD37310AFD4FD~YAAQVfV0aCUn/WSMAQAAXBOSCxbht7eZyVd5JeZOFmbP4XnIKfK9a5pFGQhp2CB7RBRzVLQ5Or9e1kUuRI5x6n1cxdKYzlugXC+e5JD4cSvQP1lwDR/QdYNs0csjXHPwyt0mwjIGpPzxdrnNvVg9GNzt7JgPSfZolhdKYBnWtrciVQ+GSIK19GiAgtw8rpr0TpNfOG8fcLmwzq+BZelTi52DYH8ChNoW8vsIa53G+6McUDc9eovKoo+jpMzDV+LFP9/t5MwHel4fDS9A0feS3p+scdIl5jJuCTCKGApI5QuoQZE9dw==~4539702~3682868'
+            ];
 
+            $params = [
+                'script' => '1600',
+                'deploy' => '1',
+                'customerId' => $request->customerId,
+                'page' => '1'
+            ];
 
+            $uri = 'https://' . self::ACCOUNT . '.restlets.api.netsuite.com/app/site/hosting/restlet.nl';
+
+            $response = $client->requestAsync('GET', $uri, ['query' => $params, 'headers' => $headers])->wait();
+
+            return  $response->getBody();
+        }
+        catch (\Exception $e)
+        {
+            return $this->sendError($e->getMessage(), 'There was an error.', 500);
+        }
+    }
 }
