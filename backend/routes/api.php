@@ -37,14 +37,10 @@ Route::middleware('auth:api')->group(function () {
 });
 
 // Add routes with-in this group to comply with the auth;
-//Route::middleware(['auth:api', 'verified'])->group(function () {
+Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::get('get-user', [AuthController::class, 'getUser']);
-    Route::post('get-access-token', [RecyclingController::class, 'getAccessToken']);
-    Route::get('get-code', [RecyclingController::class, 'getCode']);
+    Route::get('get-access-token', [RecyclingController::class, 'getAccessToken']);
     Route::get('get-invoice-by-internal-id', [RecyclingController::class, 'getInvoiceByInternalId']);
     Route::get('get-invoice-by-date-range', [RecyclingController::class, 'getInvoiceByDateRange']);
-    Route::get('get-invoice-record-by-internal-id', [RecyclingController::class, 'getInvoiceRecordByInternalId']);
     Route::get('get-customers', [RecyclingController::class, 'getCustomers']);
-    Route::get('get-code', [RecyclingController::class, 'getCode']);
-
-//});
+});
