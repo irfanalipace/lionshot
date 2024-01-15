@@ -43,5 +43,4 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::get('get-invoice-by-internal-id', [RecyclingController::class, 'getInvoiceByInternalId']);
     Route::get('get-invoice-by-date-range', [RecyclingController::class, 'getInvoiceByDateRange']);
     Route::get('get-customers', [RecyclingController::class, 'getCustomers']);
-    Route::get('get-code', [RecyclingController::class, 'getCode']);
 });

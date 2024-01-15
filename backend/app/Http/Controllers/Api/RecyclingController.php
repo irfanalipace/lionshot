@@ -65,31 +65,6 @@ class RecyclingController extends BaseController
         }
     }
 
-    public function getCode(Request $request)
-    {
-        try{
-            $headers = ['Authorization' => self::AUTHORIZATION];
-            $url = 'https://' . self::ACCOUNT . '.suitetalk.api.netsuite.com/services/rest/auth/oauth2/' . self::VERSION_1 . '/authorize';
-            $query = [
-                'scope' => 'restlets',
-                'redirect_uri' => 'https://oauth.pstmn.io/v1/browser-callback',
-                'response_type' => 'code',
-                'client_id' => self::CLIENT_ID,
-                'state' => self::STATE,
-                'prompt' => 'none'
-            ];
-
-            return $this->makeRequest('GET', $url, [
-                'query' => $query,
-                'headers' => $headers
-            ]);
-        }
-        catch (\Exception $e)
-        {
-            return $this->sendError($e->getMessage(), 'There was an error.', 500);
-        }
-    }
-
     public function getInvoiceByInternalId(GetInvoiceById $request)
     {
         try{
