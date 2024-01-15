@@ -10,14 +10,14 @@ import Box from '@material-ui/core/Box';
 
 const styles = theme => ({
   root: {
-    width: '80%',
+    width: '90%',
     marginTop: theme.spacing.unit * 3,
     overflowX: 'auto',
     
   
   },
   table: {
-    minWidth: 400,
+    minWidth: 500,
   },
   tableCell: {
     border: '1px solid black',

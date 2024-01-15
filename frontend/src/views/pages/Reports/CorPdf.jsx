@@ -1,18 +1,47 @@
-import React from "react";
+import { useRef } from "react";
 import HeaderPaper from "../../Components/Containers/HeaderPaper";
-import { Typography, Grid, Box } from "@mui/material";
+import { Typography, Grid, Box, Button } from "@mui/material";
 import TemplateTable from "../../Components/ViewTemplate/TemplateTable";
 import ViewTemplates from "../../Components/ViewTemplate/ViewTemplates";
 import PdfReports from "../../Components/PdfReports/PdfReports";
 import pdflogo from "../../../assets/images/pdf-logo.png"
+import { Paper } from "@mui/material";
+import html2canvas from "html2canvas";
+import { jsPDF } from "jspdf";
 
 const CorPdf = () => {
+  const inputRef = useRef(null);
+ 
+
+  // ...
+  
+  const printDocument = () => {
+    html2canvas(inputRef.current).then((canvas) => {
+      const imgData = canvas.toDataURL("image/png");
+      
+      // Set custom page size (in this example, 210mm x 297mm for A4)
+      const pdf = new jsPDF({ unit: 'mm', format: 'a4' });
+  
+      // Add image to the PDF
+      pdf.addImage(imgData, "JPEG", 0, 0);
+  
+      // Save the PDF with a custom name
+      pdf.save("download.pdf");
+    }).catch((error) => {
+      console.error('Error generating PDF:', error);
+    });
+  };
+  
+  
   return (
-    <div>
-      <HeaderPaper sx={{paddingLeft:'260px',paddingRight: '260px'}}>
+    <div >
+      
        
-        <Box>
-          <Grid sx={{ boxShadow: "0px 1px 1px 1px gray", padding: "44px" }}>
+      <HeaderPaper sx={{paddingLeft:'260px',paddingRight: '260px'}} >
+      <Button onClick={printDocument}>Download</Button>
+      <Paper sx={{paddingRight:'100px'}} >
+      <Box id="divToPrint" ref={inputRef}>
+          <Grid sx={{ boxShadow: "0px 1px 1px 1px gray", padding: "40px" }}>
           <Box sx={{textAlign:'center'}}>
             <img src={pdflogo} alt="text" style={{height:'100px', width:'308px', marginBottom:'23px'}}/>
         </Box>
@@ -59,6 +88,8 @@ const CorPdf = () => {
           </Grid>
         
         </Box>
+      </Paper>
+      
       </HeaderPaper>
     </div>
   );

@@ -223,34 +223,14 @@ const ViewPurchase = ({ id, refreshList }) => {
               justifyContent: 'flex-end',
               alignItems: 'center'
             }}>
-            {/* {purchaseOrderData?.status === 'draft' && (
-              <MUIButton
-                onClick={showingMenu}
-                variant='outlined'
-                sx={{
-                  fontSize: '12px',
-                  textTransform: 'capitalize',
-                  margin: '0 8px'
-                }}
-                startIcon={<AttachmentOutlinedIcon />}>
-                Attachments
-              </MUIButton>
-            )}
-            <AttachmentCard
-              deleteApi={deleteFile}
-              hidingMenu={hidingMenu}
-              showMenuItem={showMenuItem}
-              submitFilesToApi={submitFilesToApi}
-              files={files}
-              setFiles={setFiles}
-            /> */}
+       
                 <MUIButton
                     onClick={() => navigate('/cor-pdf')}
                       variant='contained'
                       sx={{ minWidth: '0', padding: '5px 7px' }}>
                       {/* <Add fontSize='small' />
                       {!viewPurchase && 'New'} */}
-                   <PrintIcon />  Print 
+                   <PrintIcon />  Print vv
                     </MUIButton>
             <IconButton
               onClick={() => {
@@ -261,50 +241,7 @@ const ViewPurchase = ({ id, refreshList }) => {
           </Grid>
         </Grid>
       </HeaderPaper>
-      {/* <Grid item sm={12}>
-        <Paper sx={{ padding: '1rem' }}>
-          {purchaseOrderData?.status === 'draft' && (
-            <MUIButton
-              startIcon={<EditIcon fontSize='small' />}
-              variant='outlined'
-              sx={{ ...BtnStyles }}
-              router
-              to={`/purchase-orders/edit/${id}`}>
-              Edit
-            </MUIButton>
-          )}
-
-          <MUIButton
-            startIcon={<EmailOutlinedIcon fontSize='small' />}
-            variant='outlined'
-            sx={{ ...BtnStyles }}
-            onClick={() => handlePurchaseMail(id)}>
-            Send an Email
-          </MUIButton>
-       
-          <MUIButton
-            startIcon={<PictureAsPdfOutlinedIcon fontSize='small' />}
-            variant='outlined'
-            sx={{ ...BtnStyles }}
-            onClick={handlePdf}>
-            Pdf/Print
-          </MUIButton>
-          {purchaseOrderData?.status === 'draft' && (
-            <MUIButton
-              startIcon={<HighlightOffRounded />}
-              variant='outlined'
-              sx={{ ...BtnStyles }}
-              onClick={() => {
-                setOpenConfirmDialog(true); // Open the confirmation dialog
-                setDialogProps({
-                  onConfirm: handleVoid
-                });
-              }}>
-              Void
-            </MUIButton>
-          )}
-        </Paper>
-      </Grid> */}
+     
 
       <Paper sx={{ marginTop: '1rem', height:'700px' }}>
 
