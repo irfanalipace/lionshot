@@ -13,9 +13,16 @@ const styles = theme => ({
     width: '100%',
     marginTop: theme.spacing.unit * 3,
     overflowX: 'auto',
+    boxShadow:'none'
+
   },
   table: {
     minWidth: 700,
+  },
+  tableCell: {
+  //  border: '1px solid black',
+   // padding:'6px',
+    width:'40%'
   },
 });
 
@@ -41,8 +48,8 @@ function SimpleTable(props) {
         <TableHead>
           <TableRow>
             <TableCell>Sr#</TableCell>
-            <TableCell align="right">Item</TableCell>
-            <TableCell align="right">Quantity</TableCell>
+            <TableCell align="left">Item</TableCell>
+            <TableCell align="left">Quantity</TableCell>
           
           </TableRow>
         </TableHead>
@@ -52,8 +59,8 @@ function SimpleTable(props) {
               <TableCell component="th" scope="row">
                 {row.srno}
               </TableCell>
-              <TableCell align="right">{row.item}</TableCell>
-              <TableCell align="right">{row.quantity}</TableCell>
+              <TableCell align="left">{row.item}</TableCell>
+              <TableCell align="left">{row.quantity}</TableCell>
              
             </TableRow>
           ))}

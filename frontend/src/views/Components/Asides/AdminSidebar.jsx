@@ -12,7 +12,7 @@ export const list = [
     name: 'Reports',
     icon: <Folder />,
     subItems: [
-      { name: 'COR', path: '/purchase-orders' },
+      { name: 'COR', path: '/cor' },
       // { name: 'Product Labeling', path: '/product-labeling' },
       // { name: 'Stock Out', path: '/stock-out' },
       // { name: 'Shipments', path: '/shipments' }

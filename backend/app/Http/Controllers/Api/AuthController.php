@@ -19,6 +19,7 @@ use App\Http\Requests\ResetPasswordRequest;
 use App\Jobs\ForgotPassword;
 use App\Jobs\SendVerificationRequest;
 use Closure;
+use Spatie\Permission\Models\Role;
 
 class AuthController extends BaseController
 {
@@ -43,6 +44,10 @@ class AuthController extends BaseController
             ]);
 
             if($user->save()){
+                // Assign a role to the user
+                $role = Role::findByName('user', 'api');
+                $user->assignRole($role);
+
                 // We should use SALT
                 $tokenResult = $user->createToken('Personal Access Token');
                 $token = $tokenResult->accessToken;
@@ -181,7 +186,7 @@ class AuthController extends BaseController
                 //Dispatching an event for the mail
                 ForgotPassword::dispatch($user, $otp);
 
-                return $this->sendResponse(null, 'A five digit OTP has been sent to the users email');
+                return $this->sendResponse(null, 'A six digit OTP has been sent to the users email');
             }
 
         } catch (\Throwable $th) {
@@ -208,14 +213,17 @@ class AuthController extends BaseController
             return false;
         }
 
-        if ( $user->otp === $request->otp) {
-            // Check if the otp has expired;
-            $past = Carbon::parse($user->otp_created_at);
-
-            if (Carbon::now()->diffInMinutes($past) >= 5) {
-                return false;
-            }
+        if ($user->otp !== $request->otp) {
+            return false;
         }
+
+        // Check if the otp has expired;
+        $past = Carbon::parse($user->otp_created_at);
+
+        if (Carbon::now()->diffInMinutes($past) >= 5) {
+            return false;
+        }
+
 
         if (gettype($callback) === 'object') {
             $callback($user, $request->password);
@@ -245,7 +253,13 @@ class AuthController extends BaseController
                 throw new \Exception($validator->errors()->first());
             }
 
-            return $this->sendResponse($this->validateOTP($request), 'OTP verification');
+            $otp_success = $this->validateOTP($request);
+
+            if ($otp_success) {
+                return $this->sendResponse($otp_success, 'OTP verification');
+            }
+
+            return $this->sendError('OTP mismatched', null, '403');
         } catch (\Throwable $th) {
             return $this->sendError($th->getMessage(), null);
         }
@@ -263,6 +277,9 @@ class AuthController extends BaseController
             $user->forceFill([
                 'password' => Hash::make($password)
             ])->setRememberToken(Str::random(60));
+
+            $user->otp = null;
+            $user->otp_created_at = null;
 
             $user->save();
 
