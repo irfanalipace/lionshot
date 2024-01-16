@@ -94,49 +94,47 @@ export function logoutApi() {
   });
 }
 
-export function verifyEmailApi(email) {
+// export function verifyEmailApi() {
+//   return new Promise((resolve, reject) => {
+//     ApiService.post("verify-email", {
+//        email,
+//        formData,
+//     })
+//       .then((response) => {
+//         console.print(
+//           "file: auth.module.js | verifyEmailApi| response",
+//           response
+//         );
+//         resolve(response.data);
+//       })
+//       .catch((e) => {
+//         // console.print("Console Log: : error", e);
+//         reject(e);
+//       });
+//   });
+// }
+
+export function verifyOtpApi(data) {
+  console.log('Request to verifyOtpApi:', data);
   return new Promise((resolve, reject) => {
-    ApiService.post("verify-email", {
-      email,
-      // formData,
-    })
+    ApiService.post("/verify-otp", {
+      ...data,
+    } , null , true)
       .then((response) => {
-        console.print(
-          "file: auth.module.js | verifyEmailApi| response",
-          response
-        );
-        resolve(response.data);
+        resolve(response);
       })
       .catch((e) => {
-        // console.print("Console Log: : error", e);
         reject(e);
+       // alert("api error")
       });
   });
 }
 
-export function verifyOtpApi({ otp }) {
-  return new Promise((resolve, reject) => {
-    ApiService.post("verify-otp", {
-      otp_code: otp,
-    })
-      .then((response) => {
-        console.print(
-          "file: auth.module.js | verifyOtpApi| response",
-          response
-        );
-        resolve(response.data);
-      })
-      .catch((e) => {
-        console.print("Console Log: : error", e);
-        reject(e);
-      });
-  });
-}
 
 export function forgetPasswordApi(email) {
   return new Promise((resolve, reject) => {
     ApiService.post("/forgot-password", {
-      ...email,
+    email,
     })
       .then((response) => {
         resolve(response);
@@ -147,33 +145,54 @@ export function forgetPasswordApi(email) {
   });
 }
 
-export function resetPasswordApi(credentials) {
-  // console.log('credentials' , credentials)
-  const params = new URLSearchParams(window.location.search);
-  const token = params.get("token");
-  const email = params.get("email");
+// export function resetPasswordApi(credentials) {
+//   // console.log('credentials' , credentials)
+//   const params = new URLSearchParams(window.location.search);
+//   const token = params.get("token");
+//   const email = params.get("email");
 
- const updatedCredentials = {
-    ...credentials,
-    email,
-    token
-  };
-  return new Promise((resolve, reject) => {
-    ApiService.post("reset-password" , updatedCredentials)
-      .then((response) => {
-        // console.print(
-        //   'file: auth.module.js | resetPasswordApi| response',
-        //   response
-        // );
-        resolve(response);
-      })
-      .catch((e) => {
-        // console.print("Console Log: : error", e);
-        reject(e);
+//  const updatedCredentials = {
+//     ...credentials,
+//     email,
+//     token
+//   };
+//   return new Promise((resolve, reject) => {
+//     ApiService.post("reset-password" , updatedCredentials)
+//       .then((response) => {
+//         // console.print(
+//         //   'file: auth.module.js | resetPasswordApi| response',
+//         //   response
+//         // );
+//         resolve(response);
+//       })
+//       .catch((e) => {
+//         // console.print("Console Log: : error", e);
+//         reject(e);
+//       });
+//   });
+// }
+export function resetPasswordApi(credentials) {
+  // Extract required data from credentials or use it directly based on your API requirements
+  const { email, otp, password,password_confirmation } = credentials;
+  // You may need to adjust the API endpoint and payload based on your server-side implementation
+  const apiEndpoint = '/reset-password'; // Update this with your actual endpoint
+
+  return new Promise(async (resolve, reject) => {
+
+    try {
+      const response = await ApiService.post(apiEndpoint, {
+        email,
+        otp,
+        password,
+        password_confirmation
       });
+
+      resolve(response.data);
+    } catch (error) {
+      reject(error);
+    }
   });
 }
-
 
 
 export function updateProfileApi(formData) {

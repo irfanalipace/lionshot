@@ -200,7 +200,7 @@ export default function Login() {
                     }
                     handleChange={formik.handleChange}
                   />
-                  <StyledCheckboxStack sx={{marginBottom:'6px'}}>
+                  <StyledCheckboxStack sx={{ marginBottom: "6px" }}>
                     <Checkbox
                       size="small"
                       checked={formik.values.remember}
@@ -210,7 +210,7 @@ export default function Login() {
                     <Typography variant="body1">Remember</Typography>
                   </StyledCheckboxStack>
                   <LoadingButton
-                  sx={{background:'#2196F3'}}
+                    sx={{ background: "#2196F3" }}
                     type="submit"
                     disabled={formik.isSubmitting}
                     loading={formik.isSubmitting}
@@ -226,7 +226,10 @@ export default function Login() {
                     to="/register"
                     size="small"
                     component={RouterLink}
-                    sx={{ textTransform: "capitalize", textDecoration: "underline" }}
+                    sx={{
+                      textTransform: "capitalize",
+                      textDecoration: "underline",
+                    }}
                   >
                     Create Account
                   </Button>
@@ -235,7 +238,10 @@ export default function Login() {
                     component={RouterLink}
                     to="/reset-password"
                     size="small"
-                    sx={{ textTransform: "capitalize",textDecoration: "underline" }}
+                    sx={{
+                      textTransform: "capitalize",
+                      textDecoration: "underline",
+                    }}
                   >
                     Forgot Password
                   </Button>

@@ -4,6 +4,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\RecyclingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,4 +39,8 @@ Route::middleware('auth:api')->group(function () {
 // Add routes with-in this group to comply with the auth;
 Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::get('get-user', [AuthController::class, 'getUser']);
+    Route::get('get-access-token', [RecyclingController::class, 'getAccessToken']);
+    Route::get('get-invoice-by-internal-id', [RecyclingController::class, 'getInvoiceByInternalId']);
+    Route::get('get-invoice-by-date-range', [RecyclingController::class, 'getInvoiceByDateRange']);
+    Route::get('get-customers', [RecyclingController::class, 'getCustomers']);
 });
