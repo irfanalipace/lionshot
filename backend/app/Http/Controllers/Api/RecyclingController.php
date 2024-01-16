@@ -9,6 +9,8 @@ use App\Http\Requests\GetInvoiceById;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+
 
 class RecyclingController extends BaseController
 {
@@ -30,7 +32,13 @@ class RecyclingController extends BaseController
     public function __construct()
     {
         $this->client = new Client();
-        $this->access_token = $this->getAccessToken();
+
+        if (Cache::has('access_token')) {
+            $this->access_token = Cache::get('access_token');
+        } else {
+            $this->access_token = $this->getAccessToken();
+            Cache::put('access_token', $this->access_token, 3600);
+        }
     }
 
     private function makeRequest($method, $url, $options = [])
