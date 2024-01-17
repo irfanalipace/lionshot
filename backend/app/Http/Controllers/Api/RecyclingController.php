@@ -53,33 +53,27 @@ class RecyclingController extends BaseController
 
     public function getAccessToken()
     {
-        try{
+        try {
             $headers = ['Authorization' => self::AUTHORIZATION];
             $url = 'https://' . self::ACCOUNT . '.suitetalk.api.netsuite.com/services/rest/auth/oauth2/' . self::VERSION_1 . '/token';
             $query = [
                 'grant_type' => self::GRANT_TYPE,
                 'refresh_token' => self::REFRESH_TOKEN
             ];
-            $response =  $this->makeRequest('GET', $url, [
+            $response = $this->makeRequest('GET', $url, [
                 'query' => $query,
                 'headers' => $headers
             ]);
 
             return json_decode($response)->access_token;
-        }
-        catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             return $this->sendError($e->getMessage(), 'There was an error.', 500);
         }
     }
 
     public function getInvoiceByInternalId(GetInvoiceById $request)
     {
-        try{
-            $headers = [
-                'Authorization' => 'Bearer ' . $this->access_token,
-                'Cookie' => '_abck=B55A2E2B82A1BC7FC776BCCD988FFA99~-1~YAAQVfV0aCQn/WSMAQAAXBOSCwupmB1SAtiesO4EY4Y+5mKq/XRDOemJVn9RS5N/t6V0drZX/1+wDgxBkAo9cfz13hNty2ipm/U5DDRSuWTeDWo62HqMZhsAH2wyZRxeQX0taDdSeXeZcPmyC88sd+6T6J6AVkolln+7eVHicuHNjAyUR1h/JOjdDVqd/5HbrxJfUrWmPcRDEQwfoCruUdFMHshMGeOUNbn9LVX4TLf6AyODH/+ZZLLl7Kyy6UvvfVX1X41mHvDJibQLm/hfBexwBN8AIglOo+vdd3lmJy/6xYGSXMI3Tz51p0FJ9lx5l9YraUdhkkpOOGZ+kcuWkt7UVVuGhUhMaUXZfOGCHT7Q3YIVFJJO0Ool8g==~-1~-1~1705299690; bm_sz=B876C6978A1F7EFB936FD37310AFD4FD~YAAQVfV0aCUn/WSMAQAAXBOSCxbht7eZyVd5JeZOFmbP4XnIKfK9a5pFGQhp2CB7RBRzVLQ5Or9e1kUuRI5x6n1cxdKYzlugXC+e5JD4cSvQP1lwDR/QdYNs0csjXHPwyt0mwjIGpPzxdrnNvVg9GNzt7JgPSfZolhdKYBnWtrciVQ+GSIK19GiAgtw8rpr0TpNfOG8fcLmwzq+BZelTi52DYH8ChNoW8vsIa53G+6McUDc9eovKoo+jpMzDV+LFP9/t5MwHel4fDS9A0feS3p+scdIl5jJuCTCKGApI5QuoQZE9dw==~4539702~3682868'
-            ];
+        try {
 
             $params = [
                 'script' => '1597',
@@ -87,27 +81,35 @@ class RecyclingController extends BaseController
                 'invoiceId' => $request->invoiceId
             ];
 
+            $cacheKey = $this->generateCacheKey($params);
+
+            if (Cache::has($cacheKey)) {
+                return Cache::get($cacheKey);
+            }
+
+            $headers = [
+                'Authorization' => 'Bearer ' . $this->access_token,
+                'Cookie' => '_abck=B55A2E2B82A1BC7FC776BCCD988FFA99~-1~YAAQVfV0aCQn/WSMAQAAXBOSCwupmB1SAtiesO4EY4Y+5mKq/XRDOemJVn9RS5N/t6V0drZX/1+wDgxBkAo9cfz13hNty2ipm/U5DDRSuWTeDWo62HqMZhsAH2wyZRxeQX0taDdSeXeZcPmyC88sd+6T6J6AVkolln+7eVHicuHNjAyUR1h/JOjdDVqd/5HbrxJfUrWmPcRDEQwfoCruUdFMHshMGeOUNbn9LVX4TLf6AyODH/+ZZLLl7Kyy6UvvfVX1X41mHvDJibQLm/hfBexwBN8AIglOo+vdd3lmJy/6xYGSXMI3Tz51p0FJ9lx5l9YraUdhkkpOOGZ+kcuWkt7UVVuGhUhMaUXZfOGCHT7Q3YIVFJJO0Ool8g==~-1~-1~1705299690; bm_sz=B876C6978A1F7EFB936FD37310AFD4FD~YAAQVfV0aCUn/WSMAQAAXBOSCxbht7eZyVd5JeZOFmbP4XnIKfK9a5pFGQhp2CB7RBRzVLQ5Or9e1kUuRI5x6n1cxdKYzlugXC+e5JD4cSvQP1lwDR/QdYNs0csjXHPwyt0mwjIGpPzxdrnNvVg9GNzt7JgPSfZolhdKYBnWtrciVQ+GSIK19GiAgtw8rpr0TpNfOG8fcLmwzq+BZelTi52DYH8ChNoW8vsIa53G+6McUDc9eovKoo+jpMzDV+LFP9/t5MwHel4fDS9A0feS3p+scdIl5jJuCTCKGApI5QuoQZE9dw==~4539702~3682868'
+            ];
+
             $uri = 'https://' . self::ACCOUNT . '.restlets.api.netsuite.com/app/site/hosting/restlet.nl';
 
-            return $this->makeRequest('GET', $uri, [
+            $response =  $this->makeRequest('GET', $uri, [
                 'query' => $params,
                 'headers' => $headers
             ]);
-        }
-        catch (\Exception $e)
-        {
+
+            $responseBody = json_decode((string)$response, true);
+            Cache::put($cacheKey, $responseBody, 3600);
+            return $response;
+        } catch (\Exception $e) {
             return $this->sendError($e->getMessage(), 'There was an error.', 500);
         }
     }
 
     public function getInvoiceByDateRange(GetInvoiceByDateRange $request)
     {
-        try{
-            $headers = [
-                'Authorization' => 'Bearer ' . $this->access_token,
-                'Cookie' => '_abck=B55A2E2B82A1BC7FC776BCCD988FFA99~-1~YAAQVfV0aCQn/WSMAQAAXBOSCwupmB1SAtiesO4EY4Y+5mKq/XRDOemJVn9RS5N/t6V0drZX/1+wDgxBkAo9cfz13hNty2ipm/U5DDRSuWTeDWo62HqMZhsAH2wyZRxeQX0taDdSeXeZcPmyC88sd+6T6J6AVkolln+7eVHicuHNjAyUR1h/JOjdDVqd/5HbrxJfUrWmPcRDEQwfoCruUdFMHshMGeOUNbn9LVX4TLf6AyODH/+ZZLLl7Kyy6UvvfVX1X41mHvDJibQLm/hfBexwBN8AIglOo+vdd3lmJy/6xYGSXMI3Tz51p0FJ9lx5l9YraUdhkkpOOGZ+kcuWkt7UVVuGhUhMaUXZfOGCHT7Q3YIVFJJO0Ool8g==~-1~-1~1705299690; bm_sz=B876C6978A1F7EFB936FD37310AFD4FD~YAAQVfV0aCUn/WSMAQAAXBOSCxbht7eZyVd5JeZOFmbP4XnIKfK9a5pFGQhp2CB7RBRzVLQ5Or9e1kUuRI5x6n1cxdKYzlugXC+e5JD4cSvQP1lwDR/QdYNs0csjXHPwyt0mwjIGpPzxdrnNvVg9GNzt7JgPSfZolhdKYBnWtrciVQ+GSIK19GiAgtw8rpr0TpNfOG8fcLmwzq+BZelTi52DYH8ChNoW8vsIa53G+6McUDc9eovKoo+jpMzDV+LFP9/t5MwHel4fDS9A0feS3p+scdIl5jJuCTCKGApI5QuoQZE9dw==~4539702~3682868'
-            ];
-
+        try {
             $params = [
                 'script' => '1598',
                 'deploy' => '1',
@@ -116,26 +118,35 @@ class RecyclingController extends BaseController
                 'page' => $request->page
             ];
 
+            $cacheKey = $this->generateCacheKey($params);
+
+            if (Cache::has($cacheKey)) {
+                return Cache::get($cacheKey);
+            }
+
+            $headers = [
+                'Authorization' => 'Bearer ' . $this->access_token,
+                'Cookie' => '_abck=B55A2E2B82A1BC7FC776BCCD988FFA99~-1~YAAQVfV0aCQn/WSMAQAAXBOSCwupmB1SAtiesO4EY4Y+5mKq/XRDOemJVn9RS5N/t6V0drZX/1+wDgxBkAo9cfz13hNty2ipm/U5DDRSuWTeDWo62HqMZhsAH2wyZRxeQX0taDdSeXeZcPmyC88sd+6T6J6AVkolln+7eVHicuHNjAyUR1h/JOjdDVqd/5HbrxJfUrWmPcRDEQwfoCruUdFMHshMGeOUNbn9LVX4TLf6AyODH/+ZZLLl7Kyy6UvvfVX1X41mHvDJibQLm/hfBexwBN8AIglOo+vdd3lmJy/6xYGSXMI3Tz51p0FJ9lx5l9YraUdhkkpOOGZ+kcuWkt7UVVuGhUhMaUXZfOGCHT7Q3YIVFJJO0Ool8g==~-1~-1~1705299690; bm_sz=B876C6978A1F7EFB936FD37310AFD4FD~YAAQVfV0aCUn/WSMAQAAXBOSCxbht7eZyVd5JeZOFmbP4XnIKfK9a5pFGQhp2CB7RBRzVLQ5Or9e1kUuRI5x6n1cxdKYzlugXC+e5JD4cSvQP1lwDR/QdYNs0csjXHPwyt0mwjIGpPzxdrnNvVg9GNzt7JgPSfZolhdKYBnWtrciVQ+GSIK19GiAgtw8rpr0TpNfOG8fcLmwzq+BZelTi52DYH8ChNoW8vsIa53G+6McUDc9eovKoo+jpMzDV+LFP9/t5MwHel4fDS9A0feS3p+scdIl5jJuCTCKGApI5QuoQZE9dw==~4539702~3682868'
+            ];
+
             $uri = 'https://' . self::ACCOUNT . '.restlets.api.netsuite.com/app/site/hosting/restlet.nl';
 
-            return $this->makeRequest('GET', $uri, [
+            $response = $this->makeRequest('GET', $uri, [
                 'query' => $params,
                 'headers' => $headers
             ]);
-        }
-        catch (\Exception $e)
-        {
+
+            $responseBody = json_decode((string)$response, true);
+            Cache::put($cacheKey, $responseBody, 3600);
+            return $response;
+        } catch (\Exception $e) {
             return $this->sendError($e->getMessage(), 'There was an error.', 500);
         }
     }
 
     public function getCustomers(GetCustomerRequest $request)
     {
-        try{
-            $headers = [
-                'Authorization' => 'Bearer ' . $this->access_token,
-                'Cookie' => '_abck=B55A2E2B82A1BC7FC776BCCD988FFA99~-1~YAAQVfV0aCQn/WSMAQAAXBOSCwupmB1SAtiesO4EY4Y+5mKq/XRDOemJVn9RS5N/t6V0drZX/1+wDgxBkAo9cfz13hNty2ipm/U5DDRSuWTeDWo62HqMZhsAH2wyZRxeQX0taDdSeXeZcPmyC88sd+6T6J6AVkolln+7eVHicuHNjAyUR1h/JOjdDVqd/5HbrxJfUrWmPcRDEQwfoCruUdFMHshMGeOUNbn9LVX4TLf6AyODH/+ZZLLl7Kyy6UvvfVX1X41mHvDJibQLm/hfBexwBN8AIglOo+vdd3lmJy/6xYGSXMI3Tz51p0FJ9lx5l9YraUdhkkpOOGZ+kcuWkt7UVVuGhUhMaUXZfOGCHT7Q3YIVFJJO0Ool8g==~-1~-1~1705299690; bm_sz=B876C6978A1F7EFB936FD37310AFD4FD~YAAQVfV0aCUn/WSMAQAAXBOSCxbht7eZyVd5JeZOFmbP4XnIKfK9a5pFGQhp2CB7RBRzVLQ5Or9e1kUuRI5x6n1cxdKYzlugXC+e5JD4cSvQP1lwDR/QdYNs0csjXHPwyt0mwjIGpPzxdrnNvVg9GNzt7JgPSfZolhdKYBnWtrciVQ+GSIK19GiAgtw8rpr0TpNfOG8fcLmwzq+BZelTi52DYH8ChNoW8vsIa53G+6McUDc9eovKoo+jpMzDV+LFP9/t5MwHel4fDS9A0feS3p+scdIl5jJuCTCKGApI5QuoQZE9dw==~4539702~3682868'
-            ];
+        try {
 
             $params = [
                 'script' => '1600',
@@ -144,16 +155,35 @@ class RecyclingController extends BaseController
                 'page' => '1'
             ];
 
+            $cacheKey = $this->generateCacheKey($params);
+
+            if (Cache::has($cacheKey)) {
+                return Cache::get($cacheKey);
+            }
+
+            $headers = [
+                'Authorization' => 'Bearer ' . $this->access_token,
+                'Cookie' => '_abck=B55A2E2B82A1BC7FC776BCCD988FFA99~-1~YAAQVfV0aCQn/WSMAQAAXBOSCwupmB1SAtiesO4EY4Y+5mKq/XRDOemJVn9RS5N/t6V0drZX/1+wDgxBkAo9cfz13hNty2ipm/U5DDRSuWTeDWo62HqMZhsAH2wyZRxeQX0taDdSeXeZcPmyC88sd+6T6J6AVkolln+7eVHicuHNjAyUR1h/JOjdDVqd/5HbrxJfUrWmPcRDEQwfoCruUdFMHshMGeOUNbn9LVX4TLf6AyODH/+ZZLLl7Kyy6UvvfVX1X41mHvDJibQLm/hfBexwBN8AIglOo+vdd3lmJy/6xYGSXMI3Tz51p0FJ9lx5l9YraUdhkkpOOGZ+kcuWkt7UVVuGhUhMaUXZfOGCHT7Q3YIVFJJO0Ool8g==~-1~-1~1705299690; bm_sz=B876C6978A1F7EFB936FD37310AFD4FD~YAAQVfV0aCUn/WSMAQAAXBOSCxbht7eZyVd5JeZOFmbP4XnIKfK9a5pFGQhp2CB7RBRzVLQ5Or9e1kUuRI5x6n1cxdKYzlugXC+e5JD4cSvQP1lwDR/QdYNs0csjXHPwyt0mwjIGpPzxdrnNvVg9GNzt7JgPSfZolhdKYBnWtrciVQ+GSIK19GiAgtw8rpr0TpNfOG8fcLmwzq+BZelTi52DYH8ChNoW8vsIa53G+6McUDc9eovKoo+jpMzDV+LFP9/t5MwHel4fDS9A0feS3p+scdIl5jJuCTCKGApI5QuoQZE9dw==~4539702~3682868'
+            ];
+
             $uri = 'https://' . self::ACCOUNT . '.restlets.api.netsuite.com/app/site/hosting/restlet.nl';
 
-            return $this->makeRequest('GET', $uri, [
+            $response = $this->makeRequest('GET', $uri, [
                 'query' => $params,
                 'headers' => $headers
             ]);
-        }
-        catch (\Exception $e)
-        {
+
+            $responseBody = json_decode((string)$response, true);
+            Cache::put($cacheKey, $responseBody, 3600);
+            return $response;
+
+        } catch (\Exception $e) {
             return $this->sendError($e->getMessage(), 'There was an error.', 500);
         }
+    }
+
+    private function generateCacheKey($params)
+    {
+        return md5(json_encode($params));
     }
 }
