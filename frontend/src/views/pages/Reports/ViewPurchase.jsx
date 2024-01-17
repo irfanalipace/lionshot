@@ -45,11 +45,11 @@ import { useTheme } from '@mui/material/styles';
 import OverlayLoader from '../../Components/OverlayLoader/OverlayLoader';
 import { HighlightOffRounded } from '@mui/icons-material';
 import ConfirmDialog from '../../Components/ConfirmDialog/ConfirmDialog';
-import { CorApi } from '../../../core/api/correports';
+import { getViewInovice } from '../../../core/api/correports';
 
 const ViewPurchase = ({ id, refreshList }) => {
   const navigate = useNavigate();
-  const purchaseID = decryptId(id);
+  const purchaseID = decryptId("870319");
   const [purchaseOrderData, setPurchaseOrdersData] = useState();
   const [showMenuItem, setShowMenu] = useState(null);
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
@@ -59,7 +59,7 @@ const ViewPurchase = ({ id, refreshList }) => {
   const [btnLoading, setBtnLoading] = useState(false);
   const [vWLoader, setVwLoader] = useState(false);
   const [contacts, setContacts] = useState([]);
-
+  console.log(id,"YYYY")
   const showingMenu = event => {
     setShowMenu(event.currentTarget);
   };
@@ -85,10 +85,11 @@ const ViewPurchase = ({ id, refreshList }) => {
   const fetchingSinglePurchase = async () => {
     try {
       setVwLoader(true);
-      const resp = await CorApi(purchaseID);
+      const resp = await getViewInovice(purchaseID);
       setPurchaseOrdersData(resp);
-      setBills(resp?.bill);
-      setContacts(resp?.vendor?.vendor_contacts);
+      //console.log("response data", resp?.addr1)
+    //  setBills(resp?.bill);
+      
     } catch (error) {
       navigate('/cor');
     } finally {
@@ -203,6 +204,10 @@ const ViewPurchase = ({ id, refreshList }) => {
     }
   };
 
+  const handleNavigate = (id, data) => {
+    // Navigate to the target component with the ID and data
+    navigate(`/cor-pdf/${id}`, { state: { data } });
+  };
   return (
     <Box sx={{ padding: '0 1rem', position: 'relative' }}>
       <OverlayLoader open={vWLoader} />
@@ -211,8 +216,8 @@ const ViewPurchase = ({ id, refreshList }) => {
           {/* view header left  */}
           <Grid sm={6} sx={{ display: 'flex', alignItems: 'center' }}>
             <Typography variant='h6'>
-              {/* {purchaseOrderData?.invoice} */}
-          Inovice# A12DE2
+            Inovice#: {purchaseOrderData?.invoiceNumber}
+          {/* Inovice# A12DE2 */}
             </Typography>
           </Grid>
           {/* view header right  */}
@@ -225,12 +230,12 @@ const ViewPurchase = ({ id, refreshList }) => {
             }}>
        
                 <MUIButton
-                    onClick={() => navigate('/cor-pdf')}
-                      variant='contained'
-                      sx={{ minWidth: '0', padding: '5px 7px' }}>
+                  onClick={() => handleNavigate(id, purchaseOrderData)}
+                    
+                    >
                       {/* <Add fontSize='small' />
-                      {!viewPurchase && 'New'} */}
-                   <PrintIcon />  Print vv
+                      // {!viewPurchase && 'New'} */}
+                   <PrintIcon />  Print
                     </MUIButton>
             <IconButton
               onClick={() => {
@@ -250,7 +255,7 @@ const ViewPurchase = ({ id, refreshList }) => {
             title='Purchase Order'
             itemsColumns={columns}
             headerInfo={info}
-            data={purchaseOrderData?.purchase_order_items}
+            data={purchaseOrderData}
             apiData={purchaseOrderData}
             headings={headings}
             addressData={{

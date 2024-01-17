@@ -1,7 +1,7 @@
 
 import ApiService from "../services/apiService";
 
-export function getAllInvoiceDateCorApi(params , page=1) {
+export function getAllInvoiceDateCorApi(params , page=1,) {
   return new Promise((resolve, reject) => {
     ApiService.get('/get-invoice-by-date-range', null, {...params , page})
       .then(response => {
@@ -14,7 +14,19 @@ export function getAllInvoiceDateCorApi(params , page=1) {
 
   });
 }
+export function getViewInovice(params ) {
+  return new Promise((resolve, reject) => {
+    ApiService.get('/get-invoice-by-internal-id', null, {...params , invoiceId:"870319"})
+      .then(response => {
+      
+        resolve(response);
+      })
+      .catch(e => {
+        reject(e);
+      });
 
+  });
+}
 
 // const resp = {
 //     data: {
@@ -39,3 +51,4 @@ export function getAllInvoiceDateCorApi(params , page=1) {
 //       }, 1000); // Simulating a 1-second delay
 //     });
 //   }
+

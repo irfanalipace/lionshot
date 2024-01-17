@@ -928,7 +928,7 @@ export const routes = [
 		aside: <AdminSidebar />,
 	},
 	{
-		path: '/cor-pdf',
+		path: '/cor-pdf/:id',
 		page: (
 			<ProtectedRoute>
 				<PageWrapper isSidebar={true}>

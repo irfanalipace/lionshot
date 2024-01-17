@@ -51,8 +51,10 @@ const MReactTable = ({
   const [sorting, setSorting] = useState([]);
   const [pagination, setPagination] = useState({
     pageIndex: 0,
-    pageSize: 10
+    pageSize: 10,
+    page:1
   });
+  console.log('pagination' , pagination)
   const [searchString, setSearchString] = useState('');
   const dataKeysObject = {};
   if (dataKeys?.length > 0) {
@@ -98,7 +100,6 @@ const MReactTable = ({
     try {
       const response = await api(params);
       let responseData = response;
-      console.log(response,'KKKKKKKKKKKKKKKKKKKKKKKKK')
       setData(responseData);
       setRowCount(
         responseData?.total || responseData[activeDataKey]?.total || 0
@@ -122,9 +123,11 @@ const MReactTable = ({
   const searchData = async globalFilter => {
     setIsLoading(true);
     const paginationKeys = tempVariables.current.dataKeysObject;
+   
     if (dataKeys?.length > 0) {
       paginationKeys[`per_page_${activeDataKey}`] =
         searchString !== globalFilter ? 10 : pagination.pageSize || 10;
+        
       paginationKeys[activeDataKey] =
         searchString !== globalFilter ? 1 : pagination.pageIndex + 1;
     } else if (!dataKeys.length) {
@@ -277,6 +280,7 @@ const MReactTable = ({
         sorting,
         rowSelection
       }}
+      
       muiSearchTextFieldProps={{
         sx: { '& .MuiInputBase-input': { height: '5px' } },
         variant: 'outlined'

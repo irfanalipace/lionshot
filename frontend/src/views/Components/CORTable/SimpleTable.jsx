@@ -40,33 +40,32 @@ const rows = [
 ];
 
 function SimpleTable(props) {
-  const { classes } = props;
-
+  const { classes, data } = props;
+  const itemsArray = data?.itemsArray || [];
+  //console.log(data?.itemsArray,'JJJJJJ')
   return (
     <Paper className={classes.root}>
-      <Table className={classes.table}>
-        <TableHead>
-          <TableRow>
-            <TableCell>Sr#</TableCell>
-            <TableCell align="left">Item</TableCell>
-            <TableCell align="left">Quantity</TableCell>
-          
+    <Table className={classes.table}>
+      <TableHead>
+        <TableRow>
+          <TableCell>Sr#</TableCell>
+          <TableCell align="left">Item</TableCell>
+          <TableCell align="left">Quantity</TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {itemsArray.map((item, index) => (
+          <TableRow key={index + 1}>
+            <TableCell component="th" scope="row">
+              {index + 1}
+            </TableCell>
+            <TableCell align="left">{item.itemName}</TableCell>
+            <TableCell align="left">{item.quantity}</TableCell>
           </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map(row => (
-            <TableRow key={row.id}>
-              <TableCell component="th" scope="row">
-                {row.srno}
-              </TableCell>
-              <TableCell align="left">{row.item}</TableCell>
-              <TableCell align="left">{row.quantity}</TableCell>
-             
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </Paper>
+        ))}
+      </TableBody>
+    </Table>
+  </Paper>
   );
 }
 

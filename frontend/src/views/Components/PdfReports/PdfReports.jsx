@@ -27,9 +27,9 @@ const styles = theme => ({
 });
 
 let id = 0;
-function createData(name, quantity) {
+function createData(itemName, quantity) {
   id += 1;
-  return { id, name, quantity };
+  return { id, itemName, quantity };
 }
 
 const rows = [
@@ -41,8 +41,9 @@ const rows = [
 ];
 
 function PdfReports(props) {
-  const { classes } = props;
-
+  const { classes, data } = props;
+  const itemsArray = data?.itemsArray || [];
+ 
   return (
     
     <Box className={classes.root}>
@@ -54,12 +55,13 @@ function PdfReports(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map(row => (
+          {itemsArray.map(row => (
             <TableRow key={row.id} style={{ borderBottom: '1px solid #c0bfbf' }}>
-              <TableCell component="th" scope="row" className={classes.tableCell}>
-                {row.name}
+              <TableCell component="th" scope="row" className={classes.tableCell} >
+                {row.itemName}
               </TableCell>
               <TableCell align="right" className={classes.tableCell}>{row.quantity}</TableCell>
+              
             </TableRow>
           ))}
         </TableBody>

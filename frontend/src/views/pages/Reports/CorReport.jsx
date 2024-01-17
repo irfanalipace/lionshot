@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { getViewInovice } from '../../../core/api/correports';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -86,7 +87,7 @@ const CorReport = () => {
       )
     }
   ];
-
+ // console.log(wholedata?.invoiceNumber)
    const collapsedColumns = [
     {
       accessorKey: 'vendor',
@@ -108,7 +109,7 @@ const CorReport = () => {
                 </Typography> */}
                 <Grid container>
                 <Typography variant='subtitle2'>
-                   {wholedata?.invoice|| '--'}
+                   {wholedata?.invoiceNumber || '--'}
                 </Typography>
                 </Grid>
               </Grid>
@@ -157,7 +158,10 @@ const CorReport = () => {
   };
 
   const handleRowClick = row => {
+   
     location.hash = '#/' + generateEncryptedID(row.id);
+   
+    
   };
   //   view menu
   const [menuAnchorEl, setMenuAnchorEl] = useState(null);
@@ -233,7 +237,7 @@ const CorReport = () => {
     //		closeMenu();
   };
   const isRowSelectable = row => {
-    return row?.original?.status === 'draft';
+    return row?.original?.status === '870319';
   };
   const Actions = ({ id, status }) => {
     return (
@@ -357,8 +361,8 @@ const CorReport = () => {
             </Grid>
           </HeaderPaper>
           <Paper>
+            <DateRangeHeader dateBtn={dateBtn} setDateBtn={setDateBtn} setSearchPram={setSearchPram} />
 
-            <DateRangeHeader dateBtn={dateBtn} setDateBtn={setDateBtn} setSearchPram={setSearchPram}/>
           </Paper>
           <DataTableContainer>
           
@@ -366,6 +370,7 @@ const CorReport = () => {
               columns={columns}
               api={getAllInvoiceDateCorApi}
               setSelectedRows={setSelectedRows}
+             
               onRowClick={handleRowClick}
               refresh={refresh}
               enableRowSelection={isRowSelectable}

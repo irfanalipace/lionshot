@@ -53,15 +53,27 @@ const ViewTemplates = ({
       return toFixed(item.value);
     }
   };
+  
   return (
     <Box>
       <>
       <Box>
-      <Typography sx={{color:'black', fontWeight:'bold'}}>
+      <Typography sx={{
+fontSize: '16px',
+fontWeight: 600,
+lineHeight: '26px',
+letterSpacing: '0.46000000834465027px',
+textAlign: 'left'
+}}>
         Request Of:
        </Typography>
-       <Typography sx={{color:'black', marginTop:'7px'}}>
-       CITY OF WASHINGTON HHW
+       <Typography sx={{fontSize: '15px',
+fontWeight: 600,
+lineHeight: '26px',
+letterSpacing: '0.46000000834465027px',
+marginTop:'6px',
+textAlign: 'left'}}>
+       CITY OF {data?.city}
        </Typography>
       </Box>
       <Box sx={{marginTop:'16px'}}>
@@ -69,14 +81,14 @@ const ViewTemplates = ({
         Address:
        </Typography>
        <Typography sx={{color:'black', marginTop:'7px'}}>
-       CITY OF WASHINGTON HHW 12Ok 2
+       CITY OF {data?.addr1}
        </Typography>
        <Typography sx={{color:'black', marginTop:'7px'}}>
-       CITY OF WASHINGTON HHW 12w 6
+       CITY OF: {data?.addr2}
        </Typography>
       </Box>
       <Box>
-      <SimpleTable />
+      <SimpleTable data={data}/>
       </Box>
       </>
     </Box>
