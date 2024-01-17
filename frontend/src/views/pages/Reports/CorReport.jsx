@@ -136,6 +136,7 @@ const CorReport = () => {
   const [openExport, setOpenExport] = useState(false);
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
   const [dialogProps, setDialogProps] = useState({});
+  const [invoiceNumber, setInvoiceNumber] = useState(null);
   const navigate = useNavigate();
 
   const [searchPram, setSearchPram] = useState('');
@@ -158,10 +159,13 @@ const CorReport = () => {
   };
 
   const handleRowClick = row => {
-   
+    const getCurrentInvoiceNumber = row?.original?.invoiceNumber;
+
+    if (getCurrentInvoiceNumber) {
+      setInvoiceNumber(getCurrentInvoiceNumber.replace(/-/g, ""));
+    }
+
     location.hash = '#/' + generateEncryptedID(row.id);
-   
-    
   };
   //   view menu
   const [menuAnchorEl, setMenuAnchorEl] = useState(null);
@@ -268,6 +272,7 @@ const CorReport = () => {
       </>
     );
   };
+
   return (
     <>
       <Grid container>
@@ -379,11 +384,12 @@ const CorReport = () => {
             />
           </DataTableContainer>
         </TableGrid>
+  
         {viewPurchase && (
           <Grid sm={8.5}>
             <DetailViewContainer>
               <ViewPurchase
-                id={id}
+                id={invoiceNumber}
                 refreshList={() => setRefresh(prev => prev + 1)}
                 setPurchaseVw={setPurchaseVw}
               />

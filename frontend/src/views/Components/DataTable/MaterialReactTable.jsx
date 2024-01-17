@@ -54,7 +54,6 @@ const MReactTable = ({
     pageSize: 10,
     page:1
   });
-  console.log('pagination' , pagination)
   const [searchString, setSearchString] = useState('');
   const dataKeysObject = {};
   if (dataKeys?.length > 0) {

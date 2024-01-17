@@ -49,7 +49,7 @@ import { getViewInovice } from '../../../core/api/correports';
 
 const ViewPurchase = ({ id, refreshList }) => {
   const navigate = useNavigate();
-  const purchaseID = decryptId("870319");
+  const purchaseID = id;
   const [purchaseOrderData, setPurchaseOrdersData] = useState();
   const [showMenuItem, setShowMenu] = useState(null);
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
@@ -59,7 +59,6 @@ const ViewPurchase = ({ id, refreshList }) => {
   const [btnLoading, setBtnLoading] = useState(false);
   const [vWLoader, setVwLoader] = useState(false);
   const [contacts, setContacts] = useState([]);
-  console.log(id,"YYYY")
   const showingMenu = event => {
     setShowMenu(event.currentTarget);
   };
