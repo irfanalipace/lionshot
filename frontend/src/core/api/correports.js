@@ -2,7 +2,7 @@ import ApiService from "../services/apiService";
 
 export function getAllInvoiceDateCorApi(params, page = 1) {
   return new Promise((resolve, reject) => {
-    ApiService.get("/get-invoice-by-date-range", null, { ...params, page })
+        ApiService.get("/get-invoice-by-date-range", null, { ...params, page })
       .then((response) => {
         resolve(response);
       })
@@ -16,9 +16,9 @@ export function getAllInvoiceDateCorApi(params, page = 1) {
  * Gets data related to the said invoiceId;
  *  !we have commented it out because we have to use the static data for now,
  *  !Please replace "static invoice ID i.e. 870319" with invoiceId param
- * @param {int} invoiceId 
+ * @param {int} invoiceId
  * @returns
- *  {JSON} invoiceData 
+ *  {JSON} invoiceData
  */
 export function getViewInovice(invoiceId) {
   return new Promise((resolve, reject) => {

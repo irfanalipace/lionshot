@@ -7,7 +7,7 @@ import Folder from '@mui/icons-material/Folder'
 import MainAside from './MainAside';
 
 export const list = [
-  { name: 'Dashboard', icon: <SpaceDashboardIcon  />, path: '/home' },
+  // { name: 'Dashboard', icon: <SpaceDashboardIcon  />, path: '/home' },
   {
     name: 'Reports',
     icon: <Folder />,
@@ -42,20 +42,20 @@ export const list = [
   //     { name: 'Vendor Credits', path: '/vendor-credits' }
   //   ]
   // },
-  {
-    name: 'Settings',
-    icon: <SettingsIcon />,
-    // subItems: [
-    //   { name: 'Brands', path: '/item-brand' },
-    //   { name: 'Conditions', path: '/conditions' },
-    //   { name: 'Marketplaces', path: '/marketplaces' },
-    //   { name: 'Categories', path: '/categories' },
-    //   { name: 'Integrations', path: '/integrations' },
-    //   { name: 'Departments', path: '/departments' },
-    //   { name: 'Users', path: '/users' },
-    //   { name: 'Companies', path: '/companies' }
-    // ]
-  }
+  // {
+  //   name: 'Settings',
+  //   icon: <SettingsIcon />,
+  //   // subItems: [
+  //   //   { name: 'Brands', path: '/item-brand' },
+  //   //   { name: 'Conditions', path: '/conditions' },
+  //   //   { name: 'Marketplaces', path: '/marketplaces' },
+  //   //   { name: 'Categories', path: '/categories' },
+  //   //   { name: 'Integrations', path: '/integrations' },
+  //   //   { name: 'Departments', path: '/departments' },
+  //   //   { name: 'Users', path: '/users' },
+  //   //   { name: 'Companies', path: '/companies' }
+  //   // ]
+  // }
 
 ];
 export default function AdminSidebar() {

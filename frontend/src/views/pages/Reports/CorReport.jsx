@@ -344,25 +344,6 @@ const CorReport = () => {
                   </Dropdown>
                 )}
               </Grid>
-              <Grid item xs={4} sx={{ textAlign: 'right' }}>
-                {selectedRows.length > 0 ? (
-                  <IconButton onClick={() => setRefresh(prev => prev + 1)}>
-                <Close />
-                  </IconButton>
-                ) : (
-                  <Box>
-                    <MUIButton
-                     // onClick={() => navigate('/purchase-orders/new')}
-                      variant='contained'
-                      sx={{ minWidth: '0', padding: '5px 7px' }}>
-                      {/* <Add fontSize='small' />
-                      {!viewPurchase && 'New'} */}
-                   <PrintIcon />  Print 
-                    </MUIButton>
-               
-                  </Box>
-                )}
-              </Grid>
             </Grid>
           </HeaderPaper>
           <Paper>

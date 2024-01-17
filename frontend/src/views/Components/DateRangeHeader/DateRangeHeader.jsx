@@ -13,15 +13,15 @@ function DateRangeHeader({ setSearchPram, setDateBtn, dateBtn }) {
     toDate: defaultToDate, // Set default value for toDate
   });
 
-  // useEffect(() => {
-  //   console.log("FormValues", formValues);
-  //   if (formValues.fromDate && formValues.toDate) {
-  //     setSearchPram({
-  //        fromDate: formatDateToDDMMYYYY(formValues.fromDate),
-  //       toDate: formatDateToDDMMYYYY(formValues.toDate),
-  //     });
-  //   }
-  // }, [formValues.toDate]);
+  // Load values into the states in-case the state is lost during transitions within components;
+  useEffect(() => {
+    if (!formValues.fromDate && !formValues.toDate) {
+      setFormValues({
+        fromDate: defaultStartDate, // Set default value for fromDate
+        toDate: defaultToDate, // Set default value for toDate
+      });
+    }
+  }, []);
 
   // Update the search parameters whenever either fromDate or toDate changes
   useEffect(() => {
@@ -90,7 +90,7 @@ function DateRangeHeader({ setSearchPram, setDateBtn, dateBtn }) {
               label="From"
             />
           </Box>
-  
+
           <Box sx={{ width: "15%" }} ml={3}>
             <FormField
               type="date"
