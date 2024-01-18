@@ -20,7 +20,7 @@ import { Link as RouterLink, useNavigate } from "react-router-dom";
 import LoadingButton from "@mui/lab/LoadingButton";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useDispatch, useSelector } from "react-redux";
-import LoginLogo from "../../../assets/images/logos/Logo-placeholder.png";
+import LoginLogo from "../../../assets/images/logos/computer.png";
 import {
   AuthFooter,
   AuthMainContainer,
