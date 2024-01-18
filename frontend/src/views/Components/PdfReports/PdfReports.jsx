@@ -10,7 +10,7 @@ import Box from '@material-ui/core/Box';
 
 const styles = theme => ({
   root: {
-    width: '95%',
+    width: '80%',
     marginTop: theme.spacing.unit * 3,
     overflowX: 'auto',
     
@@ -21,9 +21,19 @@ const styles = theme => ({
   },
   tableCell: {
     border: '1px solid black',
-    padding:'6px',
-    width:'90%',
-    fontSize: 12
+    padding:'1px',
+    width:'80%',
+    textAlign:'left',
+    paddingLeft:'4px',
+    fontSize:'12px'
+
+  },
+  tableHead: {
+    background: '#b7b7b7',
+    textAlign:'left',
+    paddingLeft:'4px',
+    padding:'0px'
+     // Set the background color for the table header
   },
 });
 
@@ -51,8 +61,8 @@ function PdfReports(props) {
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
-            <TableCell className={classes.tableCell}>Item</TableCell>
-            <TableCell align="right" className={classes.tableCell}>Quantity</TableCell>
+            <TableCell className={`${classes.tableCell} ${classes.tableHead}`}>Item</TableCell>
+            <TableCell align="right" className={`${classes.tableCell} ${classes.tableHead}`}>Quantity</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
