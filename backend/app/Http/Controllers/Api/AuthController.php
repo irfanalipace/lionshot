@@ -102,6 +102,7 @@ class AuthController extends BaseController
             $accessToken = [
                 'accessToken' =>$token,
                 'token_type' => 'Bearer',
+                'name' => $this->getUserName()
             ];
 
             return $this->sendResponse($accessToken, 'User logged in successfully');
@@ -336,5 +337,26 @@ class AuthController extends BaseController
        } catch (\Throwable $th) {
         return $this->sendError($th->getMessage(), null, 'Something went wrong.');
        }
+    }
+
+    /**
+     * Get name of the user;
+     * 
+     * @return
+     *  User name
+     */
+    function getUserName(): String {
+        $user = Auth::user();
+        $name = '';
+
+        if ($user->first_name) {
+            $name .= $user->first_name;
+        }
+
+        if ($user->last_name) {
+            $name = $name !== '' ? $name.' '.$user->last_name : $name->last_name;
+        }
+
+        return $name;
     }
 }

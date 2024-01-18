@@ -1,29 +1,15 @@
 import { useRef } from "react";
 import HeaderPaper from "../../Components/Containers/HeaderPaper";
 import { Typography, Grid, Box, Button } from "@mui/material";
-import TemplateTable from "../../Components/ViewTemplate/TemplateTable";
-import ViewTemplates from "../../Components/ViewTemplate/ViewTemplates";
 import PdfReports from "../../Components/PdfReports/PdfReports";
 import pdflogo from "../../../assets/images/pdf-logo.png";
 import { Paper } from "@mui/material";
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
-import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
+import { StyleSheet } from "@react-pdf/renderer";
 import PrintIcon from "@mui/icons-material/Print";
 import MUIButton from "../../Components/Button/MUIButton";
 import { useParams, useLocation } from "react-router-dom";
-
-const styles = StyleSheet.create({
-  page: {
-    flexDirection: "row",
-    backgroundColor: "#E4E4E4",
-  },
-  section: {
-    margin: 10,
-    padding: 10,
-    flexGrow: 1,
-  },
-});
 
 const CorPdf = () => {
   const inputRef = useRef(null);

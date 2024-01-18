@@ -114,7 +114,8 @@ class RecyclingController extends BaseController
                 'deploy' => '1',
                 'fromDate' => $request->fromDate,
                 'toDate' => $request->toDate,
-                'page' => $request->page
+                'page' => $request->page,
+                'pageSize' => $request->per_page 
             ];
 
             $cacheKey = $this->generateCacheKey($params);

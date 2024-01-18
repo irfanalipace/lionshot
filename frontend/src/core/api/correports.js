@@ -1,10 +1,31 @@
 import ApiService from "../services/apiService";
 
-export function getAllInvoiceDateCorApi(params, page = 1) {
+export function getAllInvoiceDateCorApi(params) {
   return new Promise((resolve, reject) => {
-        ApiService.get("/get-invoice-by-date-range", null, { ...params, page })
+    ApiService.get("/get-invoice-by-date-range", null, params)
       .then((response) => {
-        resolve(response);
+        // We need to request for an API change.
+        // Columns we need are
+        // This mapped response is being translated by existing datatables.
+        /**
+         * {
+         * * total
+         * * data
+         * * per_page
+         * * current_page
+         * }
+         */
+
+        const mappedResponse = {
+          data: {
+            current_page: response.currentPage,
+            total: response.totalCount,
+            per_page: response?.pageLimit || 50,
+            data: response.invoices,
+          },
+        };
+
+        resolve(mappedResponse);
       })
       .catch((e) => {
         reject(e);
@@ -23,7 +44,7 @@ export function getAllInvoiceDateCorApi(params, page = 1) {
 export function getViewInovice(invoiceId) {
   return new Promise((resolve, reject) => {
     ApiService.get("/get-invoice-by-internal-id", null, {
-      invoiceId: "870319", //invoiceId,
+      invoiceId
     })
       .then((response) => {
         resolve(response);
