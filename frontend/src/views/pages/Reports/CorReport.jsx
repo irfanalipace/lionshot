@@ -325,7 +325,7 @@ const CorReport = () => {
               </Grid>
             </Grid>
           </HeaderPaper>
-          <Paper>
+          <Paper elevation={0}>
             <DateRangeHeader
               dateBtn={dateBtn}
               setDateBtn={setDateBtn}

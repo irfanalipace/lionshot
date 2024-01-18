@@ -22,7 +22,8 @@ const styles = theme => ({
   tableCell: {
     border: '1px solid black',
     padding:'6px',
-    width:'90%'
+    width:'90%',
+    fontSize: 12
   },
 });
 

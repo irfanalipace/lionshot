@@ -244,7 +244,7 @@ const ViewPurchase = ({ id, refreshList }) => {
         </Grid>
       </HeaderPaper>
 
-      <Paper sx={{ marginTop: "1rem", height: "100%" }}>
+      <Paper sx={{ height: "100%" }}>
         <Box mb={3} paddingX={2} paddingY={1}>
           <ViewTemplates
             title="Purchase Order"
