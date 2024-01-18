@@ -23,6 +23,7 @@ const Header = memo(() => {
 	const dispatch = useDispatch();
 	const [anchorEl, setAnchorEl] = useState(null);
 	const userDetails = useSelector(state => state.auth.user);
+	console.log(userDetails, '@@@')
 	const handleMenu = event => {
 		setAnchorEl(event.currentTarget);
 	};
