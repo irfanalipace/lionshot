@@ -1,6 +1,9 @@
 import ApiService from "../services/apiService";
 
 export function getAllInvoiceDateCorApi(params) {
+  // In-case the page is less than 1, we will just assign the page (current page) to be 1;
+  params.page = params?.page > 0 ? params.page : 1;
+
   return new Promise((resolve, reject) => {
     ApiService.get("/get-invoice-by-date-range", null, params)
       .then((response) => {
