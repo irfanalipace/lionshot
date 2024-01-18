@@ -28,8 +28,8 @@ const CorPdf = () => {
         // Set custom page size (in this example, 210mm x 297mm for A4)
         const pdf = new jsPDF({
           unit: "mm",
-          format: [250, 350],
-          orientation: "langscape",
+          format: [210, 297],
+          orientation: "portrait",
         });
 
         // Add image to the PDF
@@ -71,17 +71,10 @@ const CorPdf = () => {
         </Grid>
       </HeaderPaper>
 
-      <Paper
-        sx={{
-          paddingLeft: "260px",
-          paddingRight: "260px",
-          paddingTop: "33px",
-          paddingBottom: "12px",
-        }}
-      >
+      <Paper sx={{ display:'flex', padding: 5 }}>
         <Box
           id="divToPrint"
-          sx={{ width: "100%", height: "100%", boxShadow: 'unset !important' }}
+          sx={{ margin: '0 auto', width: "700px", height: "100%", boxShadow: 'unset !important' }}
           ref={inputRef}
         >
           <Grid sx={{ boxShadow: "0px 1px 1px 1px gray", padding: "30px" }}>

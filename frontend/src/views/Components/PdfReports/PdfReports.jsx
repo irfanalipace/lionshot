@@ -10,7 +10,7 @@ import Box from '@material-ui/core/Box';
 
 const styles = theme => ({
   root: {
-    width: '90%',
+    width: '95%',
     marginTop: theme.spacing.unit * 3,
     overflowX: 'auto',
     
