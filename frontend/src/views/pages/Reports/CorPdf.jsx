@@ -71,10 +71,15 @@ const CorPdf = () => {
         </Grid>
       </HeaderPaper>
 
-      <Paper sx={{ display:'flex', padding: 5 }}>
+      <Paper sx={{ display: "flex", padding: 5 }}>
         <Box
           id="divToPrint"
-          sx={{ margin: '0 auto', width: "700px", height: "100%", boxShadow: 'unset !important' }}
+          sx={{
+            margin: "0 auto",
+            width: "700px",
+            height: "100%",
+            boxShadow: "unset !important",
+          }}
           ref={inputRef}
         >
           <Grid sx={{ boxShadow: "0px 1px 1px 1px gray", padding: "30px" }}>
