@@ -88,6 +88,9 @@ function DateRangeHeader({ setSearchPram, setDateBtn, dateBtn }) {
               }}
               fullWidth
               label="From"
+              onKeyDown = {(e) => {
+                e.preventDefault();
+             }}
             />
           </Box>
 
