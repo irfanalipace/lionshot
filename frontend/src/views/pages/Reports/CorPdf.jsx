@@ -21,7 +21,7 @@ const CorPdf = () => {
 
   //console.log(data,'HHHH')
   const printDocument = () => {
-    html2canvas(inputRef.current, { scale: 1.2, quality: 4 })
+    html2canvas(inputRef.current, { scale: 1.1 })
       .then((canvas) => {
         const imgData = canvas.toDataURL("image/png");
 
